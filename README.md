@@ -284,11 +284,13 @@ Después de realizar estos cambios, sincroniza tu proyecto en Android Studio.
 Después de realizar estos cambios, sincroniza tu proyecto con Gradle en Android Studio seleccionando "Sync Now". Esto descargará e integrará las nuevas dependencias.
 
 
-## Crear un cliente HTTP para Retrofit
-Crea una clase llamada ApiService.kt en la carpeta app/kotlin/com/example/unab2/ para gestionar la conexión con el servidor.
+## Paso 3: Configurar Retrofit para el Cliente API
 
-```python
-package com.example.unab2
+Crea una clase llamada ApiService.kt:
+Ubica o crea un archivo kotlin tipo *file* esta clase en la carpeta app/src/main/java/com/example/myapplication/
+
+```kotlin
+package com.example.imagepredictor
 
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
@@ -313,7 +315,7 @@ interface ApiService {
 }
 
 object ApiClient {
-    private const val BASE_URL = "http://ec2-52-90-150-200.compute-1.amazonaws.com:8080/"
+    private const val BASE_URL = "http://<EC2-PUBLIC-IP>:8080/"
 
     val instance: ApiService by lazy {
         Retrofit.Builder()
@@ -324,39 +326,37 @@ object ApiClient {
             .create(ApiService::class.java)
     }
 }
-
 ```
-### 3. Configurar la captura de imágenes con CameraX
+
+### Configurar la captura de imágenes con CameraX
 En tu archivo MainActivity.kt, configura CameraX para capturar imágenes. Cambia el contenido del archivo como sigue:
 ```
 
-package com.example.unab2
+package com.example.imagepredictor
+
 
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.camera.core.ImageCapture
-import androidx.camera.core.ImageCaptureException
+import androidx.annotation.RequiresPermission
+import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.camera.view.PreviewView
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.Button
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.lifecycleScope
-import com.example.unab2.ui.theme.Unab2Theme
-import kotlinx.coroutines.launch
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
+import com.example.myapplication.ui.theme.MyApplicationTheme
 import java.io.File
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -368,14 +368,14 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Inicializar el executor para tareas en segundo plano
         cameraExecutor = Executors.newSingleThreadExecutor()
 
         setContent {
-            Unab2Theme {
-                Scaffold {
-                    CameraScreen(onCapture = { file ->
-                        uploadImage(file)
-                    })
+            MyApplicationTheme {
+                CameraScreen { capturedImage ->
+                    // Manejar la imagen capturada (por ejemplo, subirla a un servidor o mostrarla en pantalla)
+                    Log.d("MainActivity", "Imagen capturada: ${capturedImage.absolutePath}")
                 }
             }
         }
@@ -388,41 +388,92 @@ class MainActivity : ComponentActivity() {
         if (ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED) {
             setupCamera()
         } else {
-            requestPermissions(arrayOf(permission), 0)
+            ActivityCompat.requestPermissions(this, arrayOf(permission), 0)
         }
     }
 
+    @RequiresPermission(Manifest.permission.CAMERA)
     private fun setupCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
         cameraProviderFuture.addListener({
             val cameraProvider = cameraProviderFuture.get()
-            val cameraSelector = androidx.camera.core.CameraSelector.DEFAULT_BACK_CAMERA
+
+            // Configurar la cámara trasera
+            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+
+            // Configuración de ImageCapture
             imageCapture = ImageCapture.Builder().build()
 
-            val preview = androidx.camera.core.Preview.Builder().build().apply {
-                setSurfaceProvider(findViewById(androidx.camera.view.PreviewView(this@MainActivity)).surfaceProvider)
-            }
+            // Configuración de la vista previa
+            val preview = Preview.Builder().build()
 
-            cameraProvider.unbindAll()
-            cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture)
+            // Vincular al ciclo de vida y vista previa
+            val previewView = findViewById<PreviewView>(R.id.preview_view)
+            preview.setSurfaceProvider(previewView.surfaceProvider)
+
+            try {
+                cameraProvider.unbindAll()
+                cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture)
+            } catch (e: Exception) {
+                Log.e("MainActivity", "Error al configurar la cámara", e)
+            }
         }, ContextCompat.getMainExecutor(this))
     }
 
-    private fun uploadImage(file: File) {
-        lifecycleScope.launch {
-            try {
-                val requestBody = RequestBody.create("image/jpeg".toMediaTypeOrNull(), file)
-                val multipartBody = MultipartBody.Part.createFormData("file", file.name, requestBody)
-                val response = ApiClient.instance.predict(multipartBody)
+    override fun onDestroy() {
+        super.onDestroy()
+        cameraExecutor.shutdown()
+    }
+}
 
-                Toast.makeText(this@MainActivity, "Predicción: ${response.predictions[0].class_name}", Toast.LENGTH_LONG).show()
+@Composable
+fun CameraScreen(onCapture: (File) -> Unit) {
+    val context = LocalContext.current
+    val photoFile = File(context.externalCacheDir, "captured_image.jpg")
+
+    // Vista previa de la cámara
+    val previewView = remember { PreviewView(context) }
+
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        // Vista previa
+        AndroidView(
+            factory = { previewView },
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxSize()
+        )
+
+        // Botón para capturar
+        Button(onClick = {
+            try {
+                val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
+                imageCapture.takePicture(
+                    outputOptions,
+                    ContextCompat.getMainExecutor(context),
+                    object : ImageCapture.OnImageSavedCallback {
+                        override fun onError(exception: ImageCaptureException) {
+                            Log.e("CameraScreen", "Error al capturar imagen", exception)
+                        }
+
+                        override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
+                            onCapture(photoFile)
+                        }
+                    }
+                )
             } catch (e: Exception) {
-                Log.e("MainActivity", "Error en la predicción", e)
+                Log.e("CameraScreen", "Error en la captura", e)
             }
+        }) {
+            Text("Capturar y Predecir")
         }
     }
 }
 ```
+
 ## 4. Crear la pantalla de la cámara (Jetpack Compose)
 Agrega el siguiente componente para la pantalla de la cámara en tu archivo MainActivity.kt:
 

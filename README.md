@@ -206,6 +206,10 @@ Busca el archivo libs.versions.toml (Version catalog en las vista Android o Proj
 
 ```kotlin
 [libraries]
+
+androidx-compose-ui = { module = "androidx.compose.ui:ui", version = "1.3.1" }
+androidx-compose-material3 = { module = "androidx.compose.material3:material3", version = "1.0.1" }
+
 # CameraX
 androidx-camera-core = { module = "androidx.camera:camera-core", version = "1.2.0" }
 androidx-camera-lifecycle = { module = "androidx.camera:camera-lifecycle", version = "1.2.0" }

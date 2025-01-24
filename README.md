@@ -139,11 +139,71 @@ dependencies {
 }
 ```
 Después de realizar estos cambios, sincroniza tu proyecto en Android Studio.
+## Agregar dependencias necesarias en libs.versions.toml
+Busca el archivo libs.versions.toml en la carpeta gradle de tu proyecto (generalmente en gradle/libs.versions.toml) y asegúrate de añadir las librerías requeridas para CameraX, Retrofit y Gson. Por ejemplo:
+
+```python
+[libraries]
+# CameraX
+androidx-camera-core = { module = "androidx.camera:camera-core", version = "1.2.0" }
+androidx-camera-lifecycle = { module = "androidx.camera:camera-lifecycle", version = "1.2.0" }
+androidx-camera-view = { module = "androidx.camera:camera-view", version = "1.2.0" }
+
+# Retrofit
+retrofit = { module = "com.squareup.retrofit2:retrofit", version = "2.9.0" }
+retrofit-gson = { module = "com.squareup.retrofit2:converter-gson", version = "2.9.0" }
+
+# OkHttp (opcional para manejo avanzado de peticiones)
+okhttp = { module = "com.squareup.okhttp3:okhttp", version = "4.10.0" }
+okhttp-logging = { module = "com.squareup.okhttp3:logging-interceptor", version = "4.10.0" }
+
+
+```
+
+##  Incluir las dependencias en el archivo build.gradle de la app
+Ahora que las librerías están declaradas en libs.versions.toml, actualiza la sección dependencies de tu archivo build.gradle para incluirlas:
+
+```
+dependencies {
+    // Dependencias existentes
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.activity.compose)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.material3)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.androidx.ui.test.junit4)
+    debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(libs.androidx.ui.test.manifest)
+
+    // CameraX
+    implementation(libs.androidx.camera.core)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.view)
+
+    // Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson)
+
+    // OkHttp (opcional, para manejo avanzado)
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.logging)
+}
+```
+## Sincronizar el proyecto
+Después de realizar estos cambios, sincroniza tu proyecto con Gradle en Android Studio seleccionando "Sync Now". Esto descargará e integrará las nuevas dependencias.
+
 
 ## Crear un cliente HTTP para Retrofit
 Crea una clase llamada ApiService.kt en la carpeta app/kotlin/com/example/unab2/ para gestionar la conexión con el servidor.
 
-```
+```python
 package com.example.unab2
 
 import okhttp3.MultipartBody
@@ -180,10 +240,11 @@ object ApiClient {
             .create(ApiService::class.java)
     }
 }
-```
 
+```
 ### 3. Configurar la captura de imágenes con CameraX
 En tu archivo MainActivity.kt, configura CameraX para capturar imágenes. Cambia el contenido del archivo como sigue:
+```
 
 package com.example.unab2
 

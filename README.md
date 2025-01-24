@@ -35,9 +35,11 @@ VGG16 preentrenado (ya disponible en Keras).
 Pasos para Configurar el Servidor
 ### Lanzar un servidor EC2, con minimo 12 GB en RAM, 8 GB en Disco, Ubuntu 24.2 LTS.
 Verifique en el servidor la versión de python. El proyecto ha sido testeado en >12 Versión.
+
 >python -V
+
 >python3 -V
->
+
 ### Conexión al Servidor: Conéctate a tu instancia EC2 con SSH:
 
 ```python
@@ -106,3 +108,221 @@ async def predict(file: UploadFile = File(...)):
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8080)
 ```
+# 4. Desarrollo del Frontend en Android Studio
+
+Pasos para Configurar el Proyecto en Android Studio
+
+## Crear un Proyecto Nuevo:
+Abre Android Studio y crea un nuevo proyecto con una actividad vacía.
+Usa Kotlin como lenguaje de programación. 
+Probado en API 28 Andorio 9+ Java 17
+
+## Actualizar dependencias de Gradle
+Abre el archivo build.gradle de tu aplicación (ubicado en /app) y asegúrate de agregar estas dependencias para Jetpack Compose, la biblioteca de cámaras y la librería de red Retrofit:
+
+```
+dependencies {
+    // Jetpack Compose
+    implementation "androidx.compose.ui:ui:1.3.1"
+    implementation "androidx.compose.material3:material3:1.0.1"
+    implementation "androidx.activity:activity-compose:1.6.1"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.5.1"
+
+    // CameraX para capturar imágenes
+    implementation "androidx.camera:camera-core:1.2.0"
+    implementation "androidx.camera:camera-lifecycle:1.2.0"
+    implementation "androidx.camera:camera-view:1.2.0"
+
+    // Retrofit para la comunicación HTTP con el servidor
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+}
+```
+Después de realizar estos cambios, sincroniza tu proyecto en Android Studio.
+
+## Crear un cliente HTTP para Retrofit
+Crea una clase llamada ApiService.kt en la carpeta app/kotlin/com/example/unab2/ para gestionar la conexión con el servidor.
+
+```
+package com.example.unab2
+
+import okhttp3.MultipartBody
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.*
+
+interface ApiService {
+    @Multipart
+    @POST("predict/")
+    suspend fun predict(@Part file: MultipartBody.Part): PredictionResponse
+
+    data class PredictionResponse(
+        val predictions: List<Prediction>
+    )
+
+    data class Prediction(
+        val class_id: String,
+        val class_name: String,
+        val probability: Float
+    )
+}
+
+object ApiClient {
+    private const val BASE_URL = "http://ec2-52-90-150-200.compute-1.amazonaws.com:8080/"
+
+    val instance: ApiService by lazy {
+        Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .client(OkHttpClient())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(ApiService::class.java)
+    }
+}
+```
+
+### 3. Configurar la captura de imágenes con CameraX
+En tu archivo MainActivity.kt, configura CameraX para capturar imágenes. Cambia el contenido del archivo como sigue:
+
+package com.example.unab2
+
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.camera.core.ImageCapture
+import androidx.camera.core.ImageCaptureException
+import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
+import com.example.unab2.ui.theme.Unab2Theme
+import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import java.io.File
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
+
+class MainActivity : ComponentActivity() {
+    private lateinit var imageCapture: ImageCapture
+    private lateinit var cameraExecutor: ExecutorService
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        cameraExecutor = Executors.newSingleThreadExecutor()
+
+        setContent {
+            Unab2Theme {
+                Scaffold {
+                    CameraScreen(onCapture = { file ->
+                        uploadImage(file)
+                    })
+                }
+            }
+        }
+
+        requestCameraPermission()
+    }
+
+    private fun requestCameraPermission() {
+        val permission = Manifest.permission.CAMERA
+        if (ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED) {
+            setupCamera()
+        } else {
+            requestPermissions(arrayOf(permission), 0)
+        }
+    }
+
+    private fun setupCamera() {
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
+        cameraProviderFuture.addListener({
+            val cameraProvider = cameraProviderFuture.get()
+            val cameraSelector = androidx.camera.core.CameraSelector.DEFAULT_BACK_CAMERA
+            imageCapture = ImageCapture.Builder().build()
+
+            val preview = androidx.camera.core.Preview.Builder().build().apply {
+                setSurfaceProvider(findViewById(androidx.camera.view.PreviewView(this@MainActivity)).surfaceProvider)
+            }
+
+            cameraProvider.unbindAll()
+            cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture)
+        }, ContextCompat.getMainExecutor(this))
+    }
+
+    private fun uploadImage(file: File) {
+        lifecycleScope.launch {
+            try {
+                val requestBody = RequestBody.create("image/jpeg".toMediaTypeOrNull(), file)
+                val multipartBody = MultipartBody.Part.createFormData("file", file.name, requestBody)
+                val response = ApiClient.instance.predict(multipartBody)
+
+                Toast.makeText(this@MainActivity, "Predicción: ${response.predictions[0].class_name}", Toast.LENGTH_LONG).show()
+            } catch (e: Exception) {
+                Log.e("MainActivity", "Error en la predicción", e)
+            }
+        }
+    }
+}
+```
+## 4. Crear la pantalla de la cámara (Jetpack Compose)
+Agrega el siguiente componente para la pantalla de la cámara en tu archivo MainActivity.kt:
+
+```
+@Composable
+fun CameraScreen(onCapture: (File) -> Unit) {
+    val context = LocalContext.current
+    val photoFile = File(context.externalCacheDir, "captured_image.jpg")
+
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally
+    ) {
+        androidx.camera.view.PreviewView(context).apply {
+            modifier = Modifier.weight(1f)
+        }
+        Button(onClick = {
+            try {
+                val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
+                imageCapture.takePicture(
+                    outputOptions,
+                    ContextCompat.getMainExecutor(context),
+                    object : ImageCapture.OnImageSavedCallback {
+                        override fun onError(exception: ImageCaptureException) {
+                            Log.e("CameraScreen", "Error al capturar imagen", exception)
+                        }
+
+                        override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
+                            onCapture(photoFile)
+                        }
+                    }
+                )
+            } catch (e: Exception) {
+                Log.e("CameraScreen", "Error en la captura", e)
+            }
+        }) {
+            Text("Capturar y Predecir")
+        }
+    }
+}
+```
+## 5. Probar la app
+Conecta un dispositivo físico o emulador que soporte CameraX.
+Ejecuta la app en Android Studio.
+Toma una foto y envíala al servidor.
+Verifica que las predicciones se muestren como un Toast.
+

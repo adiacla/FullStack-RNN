@@ -1,8 +1,8 @@
 # Postman
-##Instrucciones para ejecutar el backend en Postman
+## Instrucciones para ejecutar el backend en Postman
 Una vez que tengas tu backend corriendo en tu instancia EC2 o localmente, puedes usar Postman para probar la API. Aquí te dejo un paso a paso detallado:
 
-###Paso 1: Configurar el Backend```
+### Paso 1: Configurar el Backend```
 
 >Ejecuta el servidor backend:
 

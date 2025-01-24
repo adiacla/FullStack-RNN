@@ -199,7 +199,7 @@ android {
 ---
 
 ## Agregar dependencias necesarias en libs.versions.toml
-Busca el archivo libs.versions.toml en la carpeta gradle de tu proyecto (generalmente en gradle/libs.versions.toml) y asegúrate de añadir las librerías requeridas para CameraX, Retrofit y Gson. Por ejemplo:
+Busca el archivo libs.versions.toml (Version catalog) en la carpeta gradle de tu proyecto (generalmente en gradle/libs.versions.toml) y asegúrate de añadir las librerías requeridas para CameraX, Retrofit y Gson. Por ejemplo:
 
 ```kotlin
 [libraries]
@@ -219,40 +219,30 @@ okhttp-logging = { module = "com.squareup.okhttp3:logging-interceptor", version 
 ```
 
 ##  Incluir las dependencias en el archivo build.gradle de la app
-Ahora que las librerías están declaradas en libs.versions.toml, actualiza la sección dependencies de tu archivo build.gradle para incluirlas:
+Ahora que las librerías están declaradas en libs.versions.toml, actualiza la sección dependencies de tu archivo build.gradle ( a nivel de la app)para incluirlas:
 
-```
+```kotlin
 dependencies {
-    // Dependencias existentes
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
+    // Jetpack Compose
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
 
     // CameraX
     implementation(libs.androidx.camera.core)
     implementation(libs.androidx.camera.lifecycle)
     implementation(libs.androidx.camera.view)
 
-    // Retrofit
+    // Retrofit para las peticiones HTTP
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
 
-    // OkHttp (opcional, para manejo avanzado)
+    // OkHttp (opcional)
     implementation(libs.okhttp)
     implementation(libs.okhttp.logging)
 }
+
 ```
 
 ---

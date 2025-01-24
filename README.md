@@ -201,7 +201,7 @@ android {
 ## Agregar dependencias necesarias en libs.versions.toml
 Busca el archivo libs.versions.toml en la carpeta gradle de tu proyecto (generalmente en gradle/libs.versions.toml) y asegúrate de añadir las librerías requeridas para CameraX, Retrofit y Gson. Por ejemplo:
 
-```python
+```kotlin
 [libraries]
 # CameraX
 androidx-camera-core = { module = "androidx.camera:camera-core", version = "1.2.0" }
@@ -215,7 +215,6 @@ retrofit-gson = { module = "com.squareup.retrofit2:converter-gson", version = "2
 # OkHttp (opcional para manejo avanzado de peticiones)
 okhttp = { module = "com.squareup.okhttp3:okhttp", version = "4.10.0" }
 okhttp-logging = { module = "com.squareup.okhttp3:logging-interceptor", version = "4.10.0" }
-
 
 ```
 

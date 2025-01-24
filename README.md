@@ -49,7 +49,7 @@ Puertos abiertos en el EC2 para permitir tráfico en el puerto 8080.
 
 # Frontend:
 
-# Android Studio.
+## Android Studio.
 
 Lenguaje de programación Kotlin.
 Modelo de Machine Learning:
@@ -59,7 +59,9 @@ VGG16 preentrenado (ya disponible en Keras).
 
 
 # 2. Configuración del Backend en AWS EC2
+
 Pasos para Configurar el Servidor
+
 ### Lanzar un servidor EC2, con minimo 12 GB en RAM, 8 GB en Disco, Ubuntu 24.2 LTS.
 Verifique en el servidor la versión de python. El proyecto ha sido testeado en >12 Versión.
 
@@ -73,7 +75,7 @@ Verifique en el servidor la versión de python. El proyecto ha sido testeado en 
 ssh -i /path/to/RAG.pem ubuntu@ec2-52-90-150-200.compute-1.amazonaws.com
 ```
 ### Instalar Dependencias Necesarias:
-```
+```python
 sudo apt update
 sudo apt install python3-pip python3-venv -y
 python3 -m venv venv
@@ -81,6 +83,7 @@ source venv/bin/activate
 pip install flask fastapi uvicorn[standard] keras tensorflow pillow numpy mulpipart
 pip install python-multipart
 ```
+
 ### Configurar el Puerto 8080
 Modifica las reglas del grupo de seguridad para permitir tráfico en el puerto 8080 (o cualquier otro puerto que elijas).
 
@@ -137,17 +140,17 @@ if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8080)
 ```
 
-#Pueba 
+# Pueba 
 Puedes usar la prueba manual
 Pruebas del Backend
 Prueba manual:
 
 Usa herramientas como Postman o cURL para probar la API antes de integrarla con el frontend.
 Ejemplo de prueba con cURL:
-bash
-```shell
+
+```bash
 curl -X POST -F "file=@image.jpg" http://ec2-54-164-41-174.compute-1.amazonaws.com:8080/predict/
-```shell
+```
 Espera un JSON como respuesta con las predicciones.
 
 
@@ -156,7 +159,7 @@ Espera un JSON como respuesta con las predicciones.
 Al copiar el código a tu instancia de EC2, guárdalo como app.py o main.py para simplificar su ejecución.
 Utiliza este comando para correr el servidor:
 
-```shell
+```bash
 uvicorn app:app --host 0.0.0.0 --port 8080
 ```
 

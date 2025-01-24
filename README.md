@@ -170,30 +170,34 @@ Pasos para Configurar el Proyecto en Android Studio
 ## Crear un Proyecto Nuevo:
 Abre Android Studio y crea un nuevo proyecto con una actividad vacía.
 Usa Kotlin como lenguaje de programación. 
-Probado en API 28 Andorio 9+ Java 17
+**Paso 1**: Crear el Proyecto en Android Studio
+Abre Android Studio:
+Selecciona "New Project" y elige una plantilla vacía (Empty Activity).
 
-## Actualizar dependencias de Gradle
-Abre el archivo build.gradle de tu aplicación (ubicado en /app) y asegúrate de agregar estas dependencias para Jetpack Compose, la biblioteca de cámaras y la librería de red Retrofit:
+Lenguaje: Elige Kotlin.
+Nombre del proyecto: Puedes llamarlo, por ejemplo, ImagePredictor.
 
+Configura las versiones de Gradle y Kotlin:
+Verifica que estás usando una versión compatible con las dependencias (API mínima: 29, target SDK: 35).
+En tu archivo build.gradle del proyecto, asegúrate de usar las versiones recomendadas para Kotlin y Compose.
+
+```kotlin
+android {
+    namespace = "com.example.myapplication"
+    compileSdk = 35
+
+    defaultConfig {
+        applicationId = "com.example.myapplication"
+        minSdk = 29
+        targetSdk = 35
+        versionCode = 1
+        versionName = "1.0"
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
 ```
-dependencies {
-    // Jetpack Compose
-    implementation "androidx.compose.ui:ui:1.3.1"
-    implementation "androidx.compose.material3:material3:1.0.1"
-    implementation "androidx.activity:activity-compose:1.6.1"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.5.1"
+---
 
-    // CameraX para capturar imágenes
-    implementation "androidx.camera:camera-core:1.2.0"
-    implementation "androidx.camera:camera-lifecycle:1.2.0"
-    implementation "androidx.camera:camera-view:1.2.0"
-
-    // Retrofit para la comunicación HTTP con el servidor
-    implementation "com.squareup.retrofit2:retrofit:2.9.0"
-    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
-}
-```
-Después de realizar estos cambios, sincroniza tu proyecto en Android Studio.
 ## Agregar dependencias necesarias en libs.versions.toml
 Busca el archivo libs.versions.toml en la carpeta gradle de tu proyecto (generalmente en gradle/libs.versions.toml) y asegúrate de añadir las librerías requeridas para CameraX, Retrofit y Gson. Por ejemplo:
 
@@ -251,6 +255,33 @@ dependencies {
     implementation(libs.okhttp.logging)
 }
 ```
+
+---
+
+
+## Actualizar dependencias de Gradle
+Abre el archivo build.gradle de tu aplicación (ubicado en /app) y asegúrate de agregar estas dependencias para Jetpack Compose, la biblioteca de cámaras y la librería de red Retrofit:
+
+```
+dependencies {
+    // Jetpack Compose
+    implementation "androidx.compose.ui:ui:1.3.1"
+    implementation "androidx.compose.material3:material3:1.0.1"
+    implementation "androidx.activity:activity-compose:1.6.1"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.5.1"
+
+    // CameraX para capturar imágenes
+    implementation "androidx.camera:camera-core:1.2.0"
+    implementation "androidx.camera:camera-lifecycle:1.2.0"
+    implementation "androidx.camera:camera-view:1.2.0"
+
+    // Retrofit para la comunicación HTTP con el servidor
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+}
+```
+Después de realizar estos cambios, sincroniza tu proyecto en Android Studio.
+
 ## Sincronizar el proyecto
 Después de realizar estos cambios, sincroniza tu proyecto con Gradle en Android Studio seleccionando "Sync Now". Esto descargará e integrará las nuevas dependencias.
 

@@ -140,9 +140,9 @@ if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8080)
 ```
 
-# Pueba 
+### Pueba del Backend
 Puedes usar la prueba manual
-Pruebas del Backend
+
 Prueba manual:
 
 Usa herramientas como Postman o cURL para probar la API antes de integrarla con el frontend.

@@ -35,7 +35,7 @@ VGG16 preentrenado (ya disponible en Keras).
 Pasos para Configurar el Servidor
 Conexión al Servidor: Conéctate a tu instancia EC2 con SSH:
 
-```
+```python
 ssh -i /path/to/RAG.pem ubuntu@ec2-52-90-150-200.compute-1.amazonaws.com
 ```
 

@@ -16,17 +16,29 @@ Desarrollar una aplicación móvil para Android que capture una foto, la envíe 
 
 Herramientas y Entornos Necesarios
 > Backend con FastAPI
+> 
 Revisión del código del backend, modelo VGG16, dependencias, y ejecución en EC2.
+
 > Configuración del proyecto Android (Gradle y dependencias)
+> 
 Validar las configuraciones de build.gradle y libs.versions.toml para incluir Retrofit, CameraX y otras dependencias correctamente.
+
 >  Integración de CameraX
+> 
 Verificar la configuración de CameraX, la solicitud de permisos y la captura de imágenes.
+
 > Comunicación con el backend
+> 
 Analizar la implementación de Retrofit y cómo se gestiona la llamada al servidor y el manejo de errores.
+
 > Pantalla con Jetpack Compose
+> 
 Revisar la implementación de la interfaz de usuario (Jetpack Compose), su diseño y funcionalidad.
+
 > Pruebas finales y posibles problemas
+> 
 Identificar problemas potenciales al conectar el frontend con el backend y posibles errores comunes.
+
 
 
 # Servidor Backend:

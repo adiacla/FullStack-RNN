@@ -79,6 +79,7 @@ sudo apt install python3-pip python3-venv -y
 python3 -m venv venv
 source venv/bin/activate
 pip install flask fastapi uvicorn[standard] keras tensorflow pillow numpy mulpipart
+pip install python-multipart
 ```
 ### Configurar el Puerto 8080
 Modifica las reglas del grupo de seguridad para permitir tráfico en el puerto 8080 (o cualquier otro puerto que elijas).
@@ -135,6 +136,30 @@ async def predict(file: UploadFile = File(...)):
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8080)
 ```
+
+#Pueba 
+Puedes usar la prueba manual
+Pruebas del Backend
+Prueba manual:
+
+Usa herramientas como Postman o cURL para probar la API antes de integrarla con el frontend.
+Ejemplo de prueba con cURL:
+bash
+```shell
+curl -X POST -F "file=@image.jpg" http://ec2-54-164-41-174.compute-1.amazonaws.com:8080/predict/
+```shell
+Espera un JSON como respuesta con las predicciones.
+
+
+##Ejecución en EC2:
+
+Al copiar el código a tu instancia de EC2, guárdalo como app.py o main.py para simplificar su ejecución.
+Utiliza este comando para correr el servidor:
+
+```shell
+uvicorn app:app --host 0.0.0.0 --port 8080
+```
+
 # 4. Desarrollo del Frontend en Android Studio
 
 Pasos para Configurar el Proyecto en Android Studio

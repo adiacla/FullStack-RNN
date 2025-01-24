@@ -154,7 +154,7 @@ curl -X POST -F "file=@image.jpg" http://ec2-54-164-41-174.compute-1.amazonaws.c
 Espera un JSON como respuesta con las predicciones.
 
 
-##Ejecución en EC2:
+## Ejecución en EC2:
 
 Al copiar el código a tu instancia de EC2, guárdalo como app.py o main.py para simplificar su ejecución.
 Utiliza este comando para correr el servidor:

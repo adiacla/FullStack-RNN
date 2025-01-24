@@ -160,6 +160,7 @@ Al copiar el código a tu instancia de EC2, guárdalo como app.py o main.py para
 Utiliza este comando para correr el servidor:
 
 ```bash
+source venv/bin/activate
 uvicorn app:app --host 0.0.0.0 --port 8080
 ```
 
@@ -181,16 +182,169 @@ Nombre del proyecto: Puedes llamarlo, por ejemplo, ImagePredictor.
 
 Configura las versiones de Gradle y Kotlin:
 
-Verifica que estás usando una versión compatible con las dependencias (API mínima: 29, target SDK: 35).
+Verifica que estás usando una versión compatible con las dependencias (seleccioné el SDK 29 Andoride 10 en Project Estructura, Modulos el Compile SDK Version 29) Verficiar que en configuracion Lenguage Androdi SDK tenga el paquete instalado . La version de java es la 11.
+
 En tu archivo build.gradle del proyecto, asegúrate de usar las versiones recomendadas para Kotlin y Compose.
 
 ```kotlin
 android {
-    namespace = "com.example.myapplication"
+    namespace = "com.example.unab"
+    compileSdk = 29
+
+    defaultConfig {
+        applicationId = "com.example.unab"
+        minSdk = 29
+        targetSdk = 29
+        versionCode = 1
+        versionName = "1.0"
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = "11"
+    }
+}
+```
+
+## Configurar AndoroidManifest.xml
+De app/src/main/res
+---kotlin
+android {
+    namespace = "com.example.unab2"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.myapplication"
+        applicationId = "com.example.unab2"
+        minSdk = 33
+        targetSdk = 35
+        versionCode = 1
+        versionName = "1.0"
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = "11"
+    }
+    buildFeatures {
+        compose = true
+    }
+}
+
+---
+
+
+
+## Agregar dependencias necesarias en libs.versions.toml
+Busca el archivo libs.versions.toml (Version catalog en las vista Android) en la carpeta gradle script de tu proyecto (generalmente en gradle/libs.versions.toml) y asegúrate de añadir las librerías requeridas para CameraX, Retrofit y Gson. Por ejemplo:
+
+```kotlin
+[versions]
+agp = "8.8.0"
+kotlin = "2.0.0"
+coreKtx = "1.10.1"
+junit = "4.13.2"
+junitVersion = "1.2.1"
+espressoCore = "3.6.1"
+lifecycleRuntimeKtx = "2.6.1"
+activityCompose = "1.6.1"
+composeBom = "2024.04.01"
+coroutinesAndroid = "1.7.0"
+navigationCompose = "2.7.1"
+
+[libraries]
+androidx-compose-ui = { module = "androidx.compose.ui:ui", version = "1.5.0" }
+androidx-compose-material3 = { module = "androidx.compose.material3:material3", version = "1.1.1" }
+
+# CameraX
+androidx-camera-core = { module = "androidx.camera:camera-core", version = "1.2.2" }
+androidx-camera-camera2 = { module = "androidx.camera:camera-camera2", version = "1.2.2" }
+androidx-camera-lifecycle = { module = "androidx.camera:camera-lifecycle", version = "1.2.2" }
+androidx-camera-view = { module = "androidx.camera:camera-view", version = "1.2.2" }
+
+# Retrofit
+retrofit = { module = "com.squareup.retrofit2:retrofit", version = "2.9.0" }
+retrofit-gson = { module = "com.squareup.retrofit2:converter-gson", version = "2.9.0" }
+
+# OkHttp
+okhttp = { module = "com.squareup.okhttp3:okhttp", version = "4.10.0" }
+okhttp-logging = { module = "com.squareup.okhttp3:logging-interceptor", version = "4.10.0" }
+
+# Coroutines
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version = "1.7.0" }
+
+# Navigation Compose
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version = "2.7.1" }
+
+# Core KTX and testing
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+androidx-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+
+
+```
+
+##  Incluir las dependencias en el archivo build.gradle de la app
+
+```
+**Salve todo**
+
+
+## Actualizar dependencias de Gradle
+Abre el archivo build.gradle de tu aplicación (ubicado en /app) y asegúrate de agregar estas dependencias para Jetpack Compose, la biblioteca de cámaras y la librería de red Retrofit:
+
+```
+plugins {
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
+}
+
+android {
+    namespace = "com.example.unab2"
+    compileSdk = 35
+
+    defaultConfig {
+        applicationId = "com.example.unab2"
         minSdk = 29
         targetSdk = 35
         versionCode = 1
@@ -198,85 +352,67 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-```
----
 
-## Agregar dependencias necesarias en libs.versions.toml
-Busca el archivo libs.versions.toml (Version catalog en las vista Android o Project File) en la carpeta gradle script de tu proyecto (generalmente en gradle/libs.versions.toml) y asegúrate de añadir las librerías requeridas para CameraX, Retrofit y Gson. Por ejemplo:
+    buildTypes {
+        release {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = "11"
+    }
+    buildFeatures {
+        compose = true
+    }
+}
 
-```kotlin
-[libraries]
-
-androidx-compose-ui = { module = "androidx.compose.ui:ui", version = "1.3.1" }
-androidx-compose-material3 = { module = "androidx.compose.material3:material3", version = "1.0.1" }
-
-# CameraX
-androidx-camera-core = { module = "androidx.camera:camera-core", version = "1.2.0" }
-androidx-camera-lifecycle = { module = "androidx.camera:camera-lifecycle", version = "1.2.0" }
-androidx-camera-view = { module = "androidx.camera:camera-view", version = "1.2.0" }
-
-# Retrofit
-retrofit = { module = "com.squareup.retrofit2:retrofit", version = "2.9.0" }
-retrofit-gson = { module = "com.squareup.retrofit2:converter-gson", version = "2.9.0" }
-
-# OkHttp (opcional para manejo avanzado de peticiones)
-okhttp = { module = "com.squareup.okhttp3:okhttp", version = "4.10.0" }
-okhttp-logging = { module = "com.squareup.okhttp3:logging-interceptor", version = "4.10.0" }
-
-```
-
-##  Incluir las dependencias en el archivo build.gradle de la app
-Ahora que las librerías están declaradas en libs.versions.toml, actualiza la sección dependencies de tu archivo build.gradle ( a nivel de la app) para incluirlas:
-
-```kotlin
 dependencies {
-    // Jetpack Compose
-    implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.activity.compose)
+    // Core y UI
+    implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.activity.compose)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.material3)
+
+    // Test y Debug
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.androidx.ui.test.junit4)
+    debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(libs.androidx.ui.test.manifest)
 
     // CameraX
     implementation(libs.androidx.camera.core)
+    implementation(libs.androidx.camera.camera2)
     implementation(libs.androidx.camera.lifecycle)
     implementation(libs.androidx.camera.view)
 
-    // Retrofit para las peticiones HTTP
+    // Retrofit y OkHttp
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
-
-    // OkHttp (opcional)
     implementation(libs.okhttp)
     implementation(libs.okhttp.logging)
+
+    // Coroutines
+    implementation(libs.kotlinx.coroutines.android)
+
+    // Navigation Compose
+    implementation(libs.androidx.navigation.compose)
 }
 
-```
-**Salve todo**
-Sincroniza el proyecto: Haz clic en "Sync Now" en la parte superior de Android Studio para descargar e integrar las dependencias.
-
----
-
-
-## Actualizar dependencias de Gradle
-Abre el archivo build.gradle de tu aplicación (ubicado en /app) y asegúrate de agregar estas dependencias para Jetpack Compose, la biblioteca de cámaras y la librería de red Retrofit:
-
-```
-dependencies {
-    // Jetpack Compose
-    implementation "androidx.compose.ui:ui:1.3.1"
-    implementation "androidx.compose.material3:material3:1.0.1"
-    implementation "androidx.activity:activity-compose:1.6.1"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.5.1"
-
-    // CameraX para capturar imágenes
-    implementation "androidx.camera:camera-core:1.2.0"
-    implementation "androidx.camera:camera-lifecycle:1.2.0"
-    implementation "androidx.camera:camera-view:1.2.0"
-
-    // Retrofit para la comunicación HTTP con el servidor
-    implementation "com.squareup.retrofit2:retrofit:2.9.0"
-    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
-}
 ```
 Después de realizar estos cambios, sincroniza tu proyecto en Android Studio.
 
@@ -287,10 +423,10 @@ Después de realizar estos cambios, sincroniza tu proyecto con Gradle en Android
 ## Paso 3: Configurar Retrofit para el Cliente API
 
 Crea una clase llamada ApiService.kt:
-Ubica o crea un archivo kotlin tipo *file* esta clase en la carpeta app/src/main/java/com/example/myapplication/
+Ubica o crea un archivo kotlin tipo *file* esta clase en la carpeta app/src/main/java/com/example/unab2/
 
 ```kotlin
-package com.example.imagepredictor
+package com.example.myapplication
 
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
@@ -326,112 +462,95 @@ object ApiClient {
             .create(ApiService::class.java)
     }
 }
+
 ```
 
 ### Configurar la captura de imágenes con CameraX
 En tu archivo MainActivity.kt, configura CameraX para capturar imágenes. Cambia el contenido del archivo como sigue:
 ```
+package com.example.unab2
 
-package com.example.imagepredictor
-
-
-import android.Manifest
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.annotation.RequiresPermission
-import androidx.camera.core.*
+import androidx.camera.core.Preview
+import androidx.camera.core.ImageCapture
+import androidx.camera.core.ImageCaptureException
+import androidx.camera.core.CameraSelector
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.Text
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.example.myapplication.ui.theme.MyApplicationTheme
 import java.io.File
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
 
 class MainActivity : ComponentActivity() {
     private lateinit var imageCapture: ImageCapture
-    private lateinit var cameraExecutor: ExecutorService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // Inicializar el executor para tareas en segundo plano
-        cameraExecutor = Executors.newSingleThreadExecutor()
-
         setContent {
-            MyApplicationTheme {
-                CameraScreen { capturedImage ->
-                    // Manejar la imagen capturada (por ejemplo, subirla a un servidor o mostrarla en pantalla)
-                    Log.d("MainActivity", "Imagen capturada: ${capturedImage.absolutePath}")
+            CameraScreen(
+                imageCapture = imageCapture,
+                onCapture = { file ->
+                    Log.d("CameraScreen", "Imagen capturada: ${file.absolutePath}")
                 }
-            }
+            )
         }
-
-        requestCameraPermission()
+        setupCamera()
     }
 
-    private fun requestCameraPermission() {
-        val permission = Manifest.permission.CAMERA
-        if (ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED) {
-            setupCamera()
-        } else {
-            ActivityCompat.requestPermissions(this, arrayOf(permission), 0)
-        }
-    }
-
-    @RequiresPermission(Manifest.permission.CAMERA)
     private fun setupCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
+
         cameraProviderFuture.addListener({
+            // Obtiene el CameraProvider
             val cameraProvider = cameraProviderFuture.get()
 
-            // Configurar la cámara trasera
-            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
-
-            // Configuración de ImageCapture
-            imageCapture = ImageCapture.Builder().build()
-
-            // Configuración de la vista previa
+            // Crear la instancia de Preview usando el Builder de CameraX
             val preview = Preview.Builder().build()
 
-            // Vincular al ciclo de vida y vista previa
-            val previewView = findViewById<PreviewView>(R.id.preview_view)
+            // Crear la instancia de ImageCapture
+            imageCapture = ImageCapture.Builder().build()
+
+            // Seleccionar la cámara (por ejemplo, la cámara trasera)
+            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+
+            // Crear una vista PreviewView para mostrar la vista previa de la cámara
+            val previewView = PreviewView(this)
+
+            // Establecer el SurfaceProvider en el preview
             preview.setSurfaceProvider(previewView.surfaceProvider)
 
             try {
+                // Desvincula cualquier cámara previamente conectada
                 cameraProvider.unbindAll()
-                cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture)
-            } catch (e: Exception) {
-                Log.e("MainActivity", "Error al configurar la cámara", e)
-            }
-        }, ContextCompat.getMainExecutor(this))
-    }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        cameraExecutor.shutdown()
+                // Vincula los componentes de cámara (Preview y ImageCapture)
+                cameraProvider.bindToLifecycle(
+                    this, cameraSelector, preview, imageCapture
+                )
+
+            } catch (exc: Exception) {
+                Log.e("MainActivity", "Error al configurar la cámara", exc)
+            }
+
+        }, ContextCompat.getMainExecutor(this))
     }
 }
 
 @Composable
-fun CameraScreen(onCapture: (File) -> Unit) {
+fun CameraScreen(imageCapture: ImageCapture, onCapture: (File) -> Unit) {
     val context = LocalContext.current
     val photoFile = File(context.externalCacheDir, "captured_image.jpg")
-
-    // Vista previa de la cámara
     val previewView = remember { PreviewView(context) }
 
     Column(
@@ -439,7 +558,6 @@ fun CameraScreen(onCapture: (File) -> Unit) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Vista previa
         AndroidView(
             factory = { previewView },
             modifier = Modifier
@@ -447,7 +565,6 @@ fun CameraScreen(onCapture: (File) -> Unit) {
                 .fillMaxSize()
         )
 
-        // Botón para capturar
         Button(onClick = {
             try {
                 val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
@@ -455,10 +572,12 @@ fun CameraScreen(onCapture: (File) -> Unit) {
                     outputOptions,
                     ContextCompat.getMainExecutor(context),
                     object : ImageCapture.OnImageSavedCallback {
+                        // Implementación de onError
                         override fun onError(exception: ImageCaptureException) {
                             Log.e("CameraScreen", "Error al capturar imagen", exception)
                         }
 
+                        // Implementación de onImageSaved
                         override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                             onCapture(photoFile)
                         }
@@ -472,50 +591,14 @@ fun CameraScreen(onCapture: (File) -> Unit) {
         }
     }
 }
-```
 
-## 4. Crear la pantalla de la cámara (Jetpack Compose)
-Agrega el siguiente componente para la pantalla de la cámara en tu archivo MainActivity.kt:
-
-```
 @Composable
-fun CameraScreen(onCapture: (File) -> Unit) {
-    val context = LocalContext.current
-    val photoFile = File(context.externalCacheDir, "captured_image.jpg")
-
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally
-    ) {
-        androidx.camera.view.PreviewView(context).apply {
-            modifier = Modifier.weight(1f)
-        }
-        Button(onClick = {
-            try {
-                val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
-                imageCapture.takePicture(
-                    outputOptions,
-                    ContextCompat.getMainExecutor(context),
-                    object : ImageCapture.OnImageSavedCallback {
-                        override fun onError(exception: ImageCaptureException) {
-                            Log.e("CameraScreen", "Error al capturar imagen", exception)
-                        }
-
-                        override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-                            onCapture(photoFile)
-                        }
-                    }
-                )
-            } catch (e: Exception) {
-                Log.e("CameraScreen", "Error en la captura", e)
-            }
-        }) {
-            Text("Capturar y Predecir")
-        }
-    }
+fun PreviewCameraScreen() {
+    CameraScreen(imageCapture = ImageCapture.Builder().build(), onCapture = {})
 }
 ```
+
+
 ## 5. Probar la app
 Conecta un dispositivo físico o emulador que soporte CameraX.
 Ejecuta la app en Android Studio.

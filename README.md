@@ -177,7 +177,10 @@ Selecciona "New Project" y elige una plantilla vacía (Empty Activity).
 Lenguaje: Elige Kotlin.
 Nombre del proyecto: Puedes llamarlo, por ejemplo, ImagePredictor.
 
+**Seleccione la vista Project File**
+
 Configura las versiones de Gradle y Kotlin:
+
 Verifica que estás usando una versión compatible con las dependencias (API mínima: 29, target SDK: 35).
 En tu archivo build.gradle del proyecto, asegúrate de usar las versiones recomendadas para Kotlin y Compose.
 
@@ -199,7 +202,7 @@ android {
 ---
 
 ## Agregar dependencias necesarias en libs.versions.toml
-Busca el archivo libs.versions.toml (Version catalog) en la carpeta gradle de tu proyecto (generalmente en gradle/libs.versions.toml) y asegúrate de añadir las librerías requeridas para CameraX, Retrofit y Gson. Por ejemplo:
+Busca el archivo libs.versions.toml (Version catalog en las vista Android o Project File) en la carpeta gradle script de tu proyecto (generalmente en gradle/libs.versions.toml) y asegúrate de añadir las librerías requeridas para CameraX, Retrofit y Gson. Por ejemplo:
 
 ```kotlin
 [libraries]
@@ -219,7 +222,7 @@ okhttp-logging = { module = "com.squareup.okhttp3:logging-interceptor", version 
 ```
 
 ##  Incluir las dependencias en el archivo build.gradle de la app
-Ahora que las librerías están declaradas en libs.versions.toml, actualiza la sección dependencies de tu archivo build.gradle ( a nivel de la app)para incluirlas:
+Ahora que las librerías están declaradas en libs.versions.toml, actualiza la sección dependencies de tu archivo build.gradle ( a nivel de la app) para incluirlas:
 
 ```kotlin
 dependencies {
@@ -244,6 +247,8 @@ dependencies {
 }
 
 ```
+**Salve todo**
+Sincroniza el proyecto: Haz clic en "Sync Now" en la parte superior de Android Studio para descargar e integrar las dependencias.
 
 ---
 

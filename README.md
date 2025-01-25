@@ -101,9 +101,6 @@ import uvicorn
 app = FastAPI()
 
 # Cargar el modelo VGG16
-Use
->nano proyecto.py
->digite el codigo del backend en EC2
 
 model = VGG16(weights="imagenet")
 
@@ -139,6 +136,10 @@ async def predict(file: UploadFile = File(...)):
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8080)
 ```
+
+Use
+>nano proyecto.py
+>digite el codigo del backend en EC2
 
 ### Pueba del Backend
 Puedes usar la prueba manual

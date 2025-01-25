@@ -49,22 +49,30 @@ python3 -m venv myenv
 source myenv/bin/activate
  ```
 
-
-# Instalar FastAPI, Uvicorn y Joblib
+**Instalar FastAPI, Uvicorn y Joblib**
+ ```bash
 pip install fastapi uvicorn joblib scikit-learn
-1.3 Subir el Modelo de Regresión Lineal al Servidor EC2
+ ```
+
+### 1.3 Subir el Modelo de Regresión Lineal al Servidor EC2
+
 Si ya tienes un modelo de regresión entrenado y guardado como modelo_regresion.bin y un escalador scaler.bin, usa SCP para transferir los archivos al servidor EC2.
 
-bash
-Copiar
+ ```bash
 scp -i "tu_clave.pem" modelo_regresion.bin ubuntu@<tu_ip_ec2>:/home/ubuntu/
 scp -i "tu_clave.pem" scaler.bin ubuntu@<tu_ip_ec2>:/home/ubuntu/
-1.4 Crear la API FastAPI
+ ```
+
+### 1.4 Crear la API FastAPI
+
 Crea un archivo app.py en tu instancia EC2 para definir la API que servirá las predicciones.
 
-app.py
-python
-Copiar
+ ```bash
+nano app.py
+ ```
+
+ ```python
+
 from fastapi import FastAPI
 from pydantic import BaseModel
 import joblib
@@ -91,24 +99,34 @@ async def predict(data: InputData):
     entrada_escalada = scaler.transform(entrada)
     prediccion = modelo.predict(entrada_escalada)
     return {"prediccion": prediccion[0]}
-1.5 Ejecutar el Servidor FastAPI
+ ```
+
+### 1.5 Ejecutar el Servidor FastAPI
+
 Para ejecutar el servidor de FastAPI, usa Uvicorn:
 
-bash
-Copiar
+ ```bash
+
 uvicorn app:app --host 0.0.0.0 --port 8080 --reload
+ ```bash
+
 La API estará disponible en http://<tu_ip_ec2>:8080.
 
-2. Frontend - React Native en Windows 11
-2.1 Instalar Node.js y npm
+---
+
+# 2. Frontend - React Native en Windows 11
+## 2.1 Instalar Node.js y npm
+
 Descarga e instala Node.js desde la página oficial. Esto también instalará npm (el gestor de paquetes de Node).
 
 Verifica la instalación ejecutando:
 
-bash
-Copiar
+ ```bash
+
 node -v
 npm -v
+ ```
+
 2.2 Instalar React Native CLI
 Usaremos el React Native CLI para crear y administrar el proyecto.
 

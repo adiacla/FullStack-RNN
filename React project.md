@@ -159,11 +159,13 @@ C:\Users\adiaz\AppData\Local\Android\Sdk\cmdline-tools\latest\bin
 <ruta_del_sdk>\platform-tools
 C:\Users\adiaz\AppData\Local\Android\Sdk\platform-tools
 Verificar las herramientas existentes: Abre una terminal (PowerShell o CMD) y ejecuta:
+```
 
 Si no tiene cmdline-tools lo instala de https://developer.android.com/studio?hl=es-419#command-line-tools-only está en la parte de abajo. Se descomprime el archivo descargdo y se copia en la ruta.
 
 ```bash
 sdkmanager --list
+
 ```
 Esto te mostrará las herramientas y plataformas instaladas. Si tiene error entonces Asegurarte de que Java está instalado. El SDK Manager requiere Java. Asegúrate de que tienes una versión de Java instalada en tu sistema. Se recomienda Java Development Kit (JDK), preferiblemente la versión 11 o superior.
 Descarga e instala Java JDK desde Oracle o AdoptOpenJDK.

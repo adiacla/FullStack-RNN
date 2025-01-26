@@ -1,4 +1,4 @@
-Ejercicio de BackEnd y FrontEnd
+# Ejercicio de BackEnd y FrontEnd 
 
 ## Objetivo
 Desarrollar una aplicación móvil para Android que capture una foto, la envíe a un servidor backend en AWS EC2 mediante una API REST, procese la imagen usando el modelo preentrenado VGG16 para clasificar el objeto en la imagen y muestre la predicción en la aplicación móvil.

@@ -108,136 +108,199 @@ Para ejecutar el servidor de FastAPI, usa Uvicorn:
  ```bash
 
 uvicorn app:app --host 0.0.0.0 --port 8080 --reload
- ```bash
+ ```
 
 La API estará disponible en http://<tu_ip_ec2>:8080.
 
 ---
 
-# 2. Frontend - React Native en Windows 11
-## 2.1 Instalar Node.js y npm
+# React Native en Windows 11
+## 1. Instalar Node.js y npm
 
-Descarga e instala Node.js desde la página oficial. Esto también instalará npm (el gestor de paquetes de Node).
+Descarga e instala la última versión LTS de Node.js desde la página oficial de Node.js.
 
-Verifica la instalación ejecutando:
+Esto también instalará npm automáticamente.
 
- ```bash
+> Verifica la instalación:
 
+```bash
 node -v
 npm -v
- ```
+```
+## 2. Instalar React Native CLI
+Usaremos el React Native CLI para gestionar el proyecto.
 
-2.2 Instalar React Native CLI
-Usaremos el React Native CLI para crear y administrar el proyecto.
+Instala el CLI de forma global:
 
-Instala el CLI globalmente:
-
-bash
-Copiar
+```bash
 npm install -g react-native-cli
-2.3 Instalar Android Studio
-Descarga Android Studio desde la página oficial.
+Verifica que React Native CLI se instaló correctamente:
+```
 
-Durante la instalación, asegúrate de instalar Android SDK, Android Virtual Device (AVD) y Android Emulator.
+```bash
+react-native -v
+```
+### 3. Ajustes necesarios con Android Studio instalado
+Ubicación del SDK existente: Android Studio ya instala el Android SDK por defecto. La ubicación del SDK se puede encontrar en Android Studio:
 
-Configura las variables de entorno:
+** Abre Android Studio. **
+Ve a File > Settings > Appearance & Behavior > System Settings > Android SDK.
+Allí verás la ubicación del SDK, algo como:
+```text
+C:\Users\<tu_usuario>\AppData\Local\Android\Sdk
+C:\Users\adiaz\AppData\Local\Android\Sdk
+```
+Usa esta ruta para agregar las herramientas a las variables de entorno.
+Ajustar las Variables de Entorno de Windows: Agrega estas rutas a la variable Path (reemplaza <ruta_del_sdk> con la ubicación obtenida en el paso anterior):
 
-Abre el archivo .bashrc (o .zshrc si usas Zsh) y agrega las siguientes líneas:
+```plaintext
+<ruta_del_sdk>\cmdline-tools\latest\bin
+C:\Users\adiaz\AppData\Local\Android\Sdk\cmdline-tools\latest\bin
+<ruta_del_sdk>\platform-tools
+C:\Users\adiaz\AppData\Local\Android\Sdk\platform-tools
+Verificar las herramientas existentes: Abre una terminal (PowerShell o CMD) y ejecuta:
+
+Si no tiene cmdline-tools lo instala de https://developer.android.com/studio?hl=es-419#command-line-tools-only está en la parte de abajo. Se descomprime el archivo descargdo y se copia en la ruta.
+
+```bash
+sdkmanager --list
+```
+Esto te mostrará las herramientas y plataformas instaladas. Si tiene error entonces Asegurarte de que Java está instalado. El SDK Manager requiere Java. Asegúrate de que tienes una versión de Java instalada en tu sistema. Se recomienda Java Development Kit (JDK), preferiblemente la versión 11 o superior.
+Descarga e instala Java JDK desde Oracle o AdoptOpenJDK.
+
+```bash
+sdkmanager --list
+```
+Si falta alguna herramienta o versión, puedes instalarla con:
 
 bash
 Copiar
-export ANDROID_HOME=$HOME/Android/Sdk
-export PATH=$PATH:$ANDROID_HOME/tools
-export PATH=$PATH:$ANDROID_HOME/platform-tools
-Luego recarga el archivo:
+Editar
+sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
+Evitar instalar las herramientas ya configuradas en Android Studio: Si ya tienes configurado lo siguiente desde Android Studio, no necesitas repetirlo:
+
+Google Play Intel x86_64 Atom System Image.
+Android SDK Platform.
+Android Emulator.
+Platform-tools.
+Verificar adb (Android Debug Bridge): Después de configurar las variables de entorno, verifica que el comando adb funciona:
 
 bash
 Copiar
-source ~/.bashrc  # O source ~/.zshrc si usas Zsh
-Crear un dispositivo virtual en Android Studio usando el AVD Manager.
+Editar
+adb version
+Esto debería mostrar la versión de adb instalada.
 
-2.4 Crear un Proyecto React Native
-Crea un nuevo proyecto de React Native:
+Conectar tu dispositivo físico:
+
+Habilita Depuración por USB en tu dispositivo:
+Ve a Configuración > Acerca del teléfono.
+Toca varias veces en "Número de compilación" para habilitar el modo desarrollador.
+Ve a Opciones de desarrollador y activa Depuración USB.
+Conecta tu dispositivo a tu computadora con un cable USB.
+Ejecuta:
+bash
+Copiar
+Editar
+adb devices
+Esto debería listar tu dispositivo.
+
+
+
+### 4. Crear el Proyecto React Native
+Crea un nuevo proyecto:
 
 bash
 Copiar
+Editar
 npx react-native init PrediccionCompra
 cd PrediccionCompra
-Instalar Axios para hacer solicitudes HTTP:
+Abre el proyecto en Visual Studio Code:
 
 bash
 Copiar
-npm install axios
-2.5 Configurar la Interfaz de Usuario
-En el archivo App.js, crea la interfaz de usuario para capturar los valores y mostrar la predicción.
+Editar
+code .
+Instala Axios para manejar solicitudes HTTP:
 
-App.js
+bash
+Copiar
+Editar
+npm install axios
+5. Configurar la Interfaz de Usuario
+En el archivo App.js, usa el siguiente código para capturar la IP y puerto del servidor, tomar una foto desde el dispositivo y enviarla al backend:
 javascript
 Copiar
+Editar
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import axios from 'axios';
+import * as ImagePicker from 'expo-image-picker';
 
 const App = () => {
-  const [edad, setEdad] = useState('');
-  const [ingresos, setIngresos] = useState('');
-  const [experiencia, setExperiencia] = useState('');
-  const [satisfaccion, setSatisfaccion] = useState('');
-  const [prediccion, setPrediccion] = useState(null);
+  const [ip, setIp] = useState('');
+  const [puerto, setPuerto] = useState('');
+  const [imagen, setImagen] = useState(null);
 
-  // Función para hacer la predicción
-  const hacerPrediccion = async () => {
+  const tomarFoto = async () => {
+    const permiso = await ImagePicker.requestCameraPermissionsAsync();
+
+    if (permiso.granted) {
+      const resultado = await ImagePicker.launchCameraAsync();
+
+      if (!resultado.cancelled) {
+        setImagen(resultado.uri);
+      }
+    } else {
+      Alert.alert('Permiso denegado', 'Necesitas habilitar el permiso para la cámara.');
+    }
+  };
+
+  const enviarImagen = async () => {
+    if (!ip || !puerto) {
+      Alert.alert('Error', 'Por favor ingresa la IP y el puerto del servidor.');
+      return;
+    }
+
+    if (!imagen) {
+      Alert.alert('Error', 'Por favor toma una foto antes de enviarla.');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', {
+      uri: imagen,
+      type: 'image/jpeg',
+      name: 'foto.jpg',
+    });
+
     try {
-      const response = await axios.post('http://<tu_ip_ec2>:8080/predict/', {
-        edad: parseFloat(edad),
-        ingresos: parseFloat(ingresos),
-        experiencia: parseFloat(experiencia),
-        satisfaccion: parseFloat(satisfaccion),
+      const response = await axios.post(`http://${ip}:${puerto}/predict/`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
       });
-
-      setPrediccion(response.data.prediccion);
+      Alert.alert('Respuesta del servidor', JSON.stringify(response.data));
     } catch (error) {
-      console.error('Error al hacer la predicción:', error);
+      Alert.alert('Error', 'No se pudo enviar la imagen: ' + error.message);
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Predicción de valor de compra</Text>
+      <Text style={styles.title}>Conexión al servidor</Text>
       <TextInput
         style={styles.input}
-        placeholder="Edad"
-        keyboardType="numeric"
-        value={edad}
-        onChangeText={setEdad}
+        placeholder="IP del servidor"
+        value={ip}
+        onChangeText={setIp}
       />
       <TextInput
         style={styles.input}
-        placeholder="Ingresos"
-        keyboardType="numeric"
-        value={ingresos}
-        onChangeText={setIngresos}
+        placeholder="Puerto del servidor"
+        value={puerto}
+        onChangeText={setPuerto}
       />
-      <TextInput
-        style={styles.input}
-        placeholder="Experiencia"
-        keyboardType="numeric"
-        value={experiencia}
-        onChangeText={setExperiencia}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Satisfacción"
-        keyboardType="numeric"
-        value={satisfaccion}
-        onChangeText={setSatisfaccion}
-      />
-      <Button title="Predecir" onPress={hacerPrediccion} />
-      {prediccion && (
-        <Text style={styles.result}>
-          Predicción de compra: {prediccion.toFixed(2)}
-        </Text>
-      )}
+      <Button title="Tomar Foto" onPress={tomarFoto} />
+      <Button title="Enviar Imagen" onPress={enviarImagen} />
     </View>
   );
 };
@@ -260,42 +323,26 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     paddingLeft: 10,
   },
-  result: {
-    marginTop: 20,
-    fontSize: 18,
-    textAlign: 'center',
-    fontWeight: 'bold',
-  },
 });
 
 export default App;
-2.6 Ejecutar el Proyecto en el Emulador Android
-Abre tu emulador de Android.
-
-En la terminal de tu proyecto, ejecuta:
-
+6. Ejecutar el Proyecto en un Dispositivo Físico
+Conecta tu dispositivo Android al PC usando un cable USB.
+Ejecuta el proyecto en tu dispositivo:
 bash
 Copiar
+Editar
 npx react-native run-android
-Esto ejecutará la aplicación en el emulador Android y podrás ver la interfaz con los campos de entrada y el botón para realizar la predicción.
+Tu app debería abrirse en el dispositivo físico.
+Opcional: Probar con Emulador sin Android Studio
+Usa Genymotion como alternativa al emulador de Android Studio:
 
-3. Despliegue y Producción
-3.1 Desplegar la API FastAPI
-Si todo está funcionando correctamente, tu API FastAPI está disponible en el servidor EC2 en http://<tu_ip_ec2>:8080. Puedes configurar un servidor web como Nginx o Traefik para gestionar el tráfico o incluso usar Docker para desplegarlo de forma más robusta.
-
-3.2 Publicar la App React Native
-Una vez que hayas probado que la aplicación funciona correctamente en el emulador o dispositivo, puedes construir la aplicación para dispositivos reales (Android o iOS) y publicarla en la Google Play Store o Apple App Store si es necesario.
-
-Conclusión
-Has creado un sistema completo con un backend en FastAPI para hacer predicciones de regresión lineal y un frontend en React Native para capturar la entrada del usuario y mostrar el resultado. Ahora puedes realizar predicciones de compra desde tu dispositivo móvil utilizando tu modelo entrenado en AWS EC2.
-
-Si tienes alguna duda o problemas al seguir los pasos, no dudes en preguntar. ¡Mucho éxito en tu proyecto!
-
-yaml
+Descarga e instala Genymotion: https://www.genymotion.com/.
+Configura Genymotion con una imagen de Android.
+Asegúrate de que adb detecte el emulador:
+bash
 Copiar
-
----
-
-Este es el contenido completo en formato Markdown que puedes pegar en una celda de texto en **Google Colab**. Este archivo te ayudará a organizar tu proyecto y tener todo el flujo de trabajo estructurado en un solo lugar. ¡Espero que te sea útil!
-
-
+Editar
+adb devices
+7. Desplegar la API y App
+Asegúrate de que tu API esté accesible desde tu dispositivo físico configurando el puerto y habilitando acceso público en tu servidor.

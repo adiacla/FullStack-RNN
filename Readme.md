@@ -387,6 +387,7 @@ Configura Genymotion con una imagen de Android.
 Asegúrate de que adb detecte el emulador:
 ```bash
 adb devices
+```
 
 # 7. Desplegar la API y App
 

@@ -1,8 +1,15 @@
-# Proyecto Completo: Predicción de Valor de Compra
+Ejercicio de BackEnd y FrontEnd
 
-Este proyecto te guía a través de los pasos para construir una aplicación con un **backend en FastAPI** (hospedado en **AWS EC2**) y un **frontend en React Native**. La aplicación permite predecir el valor de la compra en función de varias características.
+## Objetivo
+Desarrollar una aplicación móvil para Android que capture una foto, la envíe a un servidor backend en AWS EC2 mediante una API REST, procese la imagen usando el modelo preentrenado VGG16 para clasificar el objeto en la imagen y muestre la predicción en la aplicación móvil.
 
-## Requisitos
+## Estructura del Taller
+### Requisitos del Proyecto
+
+1. Configuración del Backend en Ubuntu (AWS EC2)
+2. Desarrollo del API con Flask o FastAPI
+3. Desarrollo del Frontend en VsC con React Naive
+4. Pruebas de Integración
 
 ### Backend (FastAPI)
 - **AWS EC2** con Ubuntu
@@ -52,15 +59,6 @@ source myenv/bin/activate
 **Instalar FastAPI, Uvicorn y Joblib**
  ```bash
 pip install fastapi uvicorn joblib scikit-learn
- ```
-
-### 1.3 Subir el Modelo de Regresión Lineal al Servidor EC2
-
-Si ya tienes un modelo de regresión entrenado y guardado como modelo_regresion.bin y un escalador scaler.bin, usa SCP para transferir los archivos al servidor EC2.
-
- ```bash
-scp -i "tu_clave.pem" modelo_regresion.bin ubuntu@<tu_ip_ec2>:/home/ubuntu/
-scp -i "tu_clave.pem" scaler.bin ubuntu@<tu_ip_ec2>:/home/ubuntu/
  ```
 
 ### 1.4 Crear la API FastAPI

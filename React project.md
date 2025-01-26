@@ -73,33 +73,8 @@ nano app.py
 
  ```python
 
-from fastapi import FastAPI
-from pydantic import BaseModel
-import joblib
-import numpy as np
 
-# Cargar el modelo y el escalador
-modelo = joblib.load("modelo_regresion.bin")
-scaler = joblib.load("scaler.bin")
-
-# Crear la aplicación FastAPI
-app = FastAPI()
-
-# Definir el esquema de entrada
-class InputData(BaseModel):
-    edad: float
-    ingresos: float
-    experiencia: float
-    satisfaccion: float
-
-@app.post("/predict/")
-async def predict(data: InputData):
-    # Preprocesar la entrada y hacer la predicción
-    entrada = np.array([[data.edad, data.ingresos, data.experiencia, data.satisfaccion]])
-    entrada_escalada = scaler.transform(entrada)
-    prediccion = modelo.predict(entrada_escalada)
-    return {"prediccion": prediccion[0]}
- ```
+```
 
 ### 1.5 Ejecutar el Servidor FastAPI
 

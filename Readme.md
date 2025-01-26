@@ -58,7 +58,8 @@ source myenv/bin/activate
 
 **Instalar FastAPI, Uvicorn y Joblib**
  ```bash
-pip install fastapi uvicorn joblib scikit-learn
+pip install fastapi uvicorn keras 
+
  ```
 
 ### 1.4 Crear la API FastAPI

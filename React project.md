@@ -175,22 +175,24 @@ sdkmanager --list
 ```
 Si falta alguna herramienta o versión, puedes instalarla con:
 
-bash
-Copiar
-Editar
+```bash
 sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
+```
+
 Evitar instalar las herramientas ya configuradas en Android Studio: Si ya tienes configurado lo siguiente desde Android Studio, no necesitas repetirlo:
 
 Google Play Intel x86_64 Atom System Image.
 Android SDK Platform.
 Android Emulator.
 Platform-tools.
+
 Verificar adb (Android Debug Bridge): Después de configurar las variables de entorno, verifica que el comando adb funciona:
 
-bash
-Copiar
-Editar
+```bash
+
 adb version
+```
+
 Esto debería mostrar la versión de adb instalada.
 
 Conectar tu dispositivo físico:
@@ -201,39 +203,41 @@ Toca varias veces en "Número de compilación" para habilitar el modo desarrolla
 Ve a Opciones de desarrollador y activa Depuración USB.
 Conecta tu dispositivo a tu computadora con un cable USB.
 Ejecuta:
-bash
-Copiar
-Editar
+
+```bash
+
 adb devices
+```
+
 Esto debería listar tu dispositivo.
 
 
 
-### 4. Crear el Proyecto React Native
+# 4. Crear el Proyecto React Native
 Crea un nuevo proyecto:
 
-bash
-Copiar
-Editar
+```bash
 npx react-native init PrediccionCompra
 cd PrediccionCompra
+```
+
 Abre el proyecto en Visual Studio Code:
 
-bash
-Copiar
-Editar
+```bash
+
 code .
+```
 Instala Axios para manejar solicitudes HTTP:
 
-bash
-Copiar
-Editar
+```bash
+
 npm install axios
-5. Configurar la Interfaz de Usuario
+```
+# 5. Configurar la Interfaz de Usuario
+
 En el archivo App.js, usa el siguiente código para capturar la IP y puerto del servidor, tomar una foto desde el dispositivo y enviarla al backend:
-javascript
-Copiar
-Editar
+```javascript
+
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import axios from 'axios';
@@ -328,23 +332,28 @@ const styles = StyleSheet.create({
 });
 
 export default App;
-6. Ejecutar el Proyecto en un Dispositivo Físico
+```
+
+
+# 6. Ejecutar el Proyecto en un Dispositivo Físico
 Conecta tu dispositivo Android al PC usando un cable USB.
 Ejecuta el proyecto en tu dispositivo:
-bash
-Copiar
-Editar
+```bash
 npx react-native run-android
+```
+
 Tu app debería abrirse en el dispositivo físico.
-Opcional: Probar con Emulador sin Android Studio
+
+**Opcional:** Probar con Emulador sin Android Studio
+
 Usa Genymotion como alternativa al emulador de Android Studio:
 
 Descarga e instala Genymotion: https://www.genymotion.com/.
 Configura Genymotion con una imagen de Android.
 Asegúrate de que adb detecte el emulador:
-bash
-Copiar
-Editar
+```bash
 adb devices
-7. Desplegar la API y App
+
+# 7. Desplegar la API y App
+
 Asegúrate de que tu API esté accesible desde tu dispositivo físico configurando el puerto y habilitando acceso público en tu servidor.

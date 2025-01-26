@@ -70,6 +70,67 @@ nano app.py
  ```
 
  ```python
+Desarrollo del Backend API
+Usaremos FastAPI por su rendimiento y facilidad de uso. El backend aceptará una imagen, la procesará con el modelo VGG16 y devolverá la predicción.
+
+from fastapi import FastAPI, File, UploadFile
+from fastapi.responses import JSONResponse
+from keras.applications.vgg16 import VGG16, preprocess_input, decode_predictions
+from keras.utils import img_to_array, load_img
+import numpy as np
+import uvicorn
+
+app = FastAPI()
+
+# Cargar el modelo VGG16
+
+model = VGG16(weights="imagenet")
+
+@app.post("/predict/")
+async def predict(file: UploadFile = File(...)):
+    try:
+        # Leer y procesar la imagen
+        image = await file.read()
+        with open("temp.jpg", "wb") as f:
+            f.write(image)
+
+        img = load_img("temp.jpg", target_size=(224, 224))
+        x = img_to_array(img)
+        x = np.expand_dims(x, axis=0)
+        x = preprocess_input(x)
+
+        # Realizar predicción
+        predictions = model.predict(x)
+        decoded_predictions = decode_predictions(predictions, top=3)[0]
+
+        # Formatear las predicciones
+        results = [
+            {"class_id": pred[0], "class_name": pred[1], "probability": float(pred[2])}
+            for pred in decoded_predictions
+        ]
+
+        return JSONResponse(content={"predictions": results})
+
+    except Exception as e:
+        return JSONResponse(content={"error": str(e)}, status_code=500)
+
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8080)
+Use
+
+nano proyecto.py digite el codigo del backend en EC2
+
+Pueba del Backend
+Puedes usar la prueba manual
+
+Prueba manual:
+
+Usa herramientas como Postman o cURL para probar la API antes de integrarla con el frontend. Ejemplo de prueba con cURL:
+
+curl -X POST -F "file=@image.jpg" http://ec2-54-164-41-174.compute-1.amazonaws.com:8080/predict/
+Espera un JSON como respuesta con las predicciones.
+
 
 
 ```

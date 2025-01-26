@@ -262,11 +262,13 @@ Abre el proyecto en Visual Studio Code:
 
 code .
 ```
-Instala Axios para manejar solicitudes HTTP:
+Instalar dependencias necesarias: Después de agregar el archivo App.js, asegúrate de que las dependencias que usas, como axios para HTTP y expo-image-picker, estén instaladas.
+
+Ejecuta estos comandos en tu terminal dentro del directorio de tu proyecto:
 
 ```bash
-
 npm install axios
+npm install expo-image-picker
 ```
 # 5. Configurar la Interfaz de Usuario
 

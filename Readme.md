@@ -118,11 +118,16 @@ async def predict(file: UploadFile = File(...)):
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8080)
-Use
+```
 
-nano proyecto.py digite el codigo del backend en EC2
+Use para editar el proyecto
 
-Pueba del Backend
+nano proyecto.py 
+
+copie el codigo del backend en EC2
+on CTRL X sale y guaruda
+
+## Pueba del Backend
 Puedes usar la prueba manual
 
 Prueba manual:
@@ -133,6 +138,7 @@ curl -X POST -F "file=@image.jpg" http://ec2-54-164-41-174.compute-1.amazonaws.c
 Espera un JSON como respuesta con las predicciones.
 
 
+Ademas puedes usar Postman en post para enviar imagenes.
 
 ```
 

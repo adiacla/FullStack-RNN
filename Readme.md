@@ -292,27 +292,33 @@ Crea el archivo app.tsx y ejecuta estos comandos en tu terminal dentro del direc
 
 ```bash
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Alert, ScrollView } from 'react-native';
 import axios from 'axios';
-import * as ImagePicker from 'expo-image-picker';
+import { launchCamera } from 'react-native-image-picker';
 
 const App = () => {
   const [ip, setIp] = useState('');
   const [puerto, setPuerto] = useState('');
   const [imagen, setImagen] = useState(null);
+  const [respuesta, setRespuesta] = useState(null);
 
   const tomarFoto = async () => {
-    const permiso = await ImagePicker.requestCameraPermissionsAsync();
+    const options = {
+      mediaType: 'photo',
+      cameraType: 'back',
+      quality: 0.5,
+    };
 
-    if (permiso.granted) {
-      const resultado = await ImagePicker.launchCameraAsync();
-
-      if (!resultado.cancelled) {
-        setImagen(resultado.uri);
+    launchCamera(options, (response) => {
+      if (response.didCancel) {
+        console.log('Usuario canceló la cámara');
+      } else if (response.errorCode) {
+        console.log('Error en la cámara: ', response.errorMessage);
+      } else {
+        const { uri } = response.assets[0];  // Usamos `assets[0]` ya que launchCamera retorna una matriz
+        setImagen(uri);
       }
-    } else {
-      Alert.alert('Permiso denegado', 'Necesitas habilitar el permiso para la cámara.');
-    }
+    });
   };
 
   const enviarImagen = async () => {
@@ -337,7 +343,7 @@ const App = () => {
       const response = await axios.post(`http://${ip}:${puerto}/predict/`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
-      Alert.alert('Respuesta del servidor', JSON.stringify(response.data));
+      setRespuesta(response.data.predictions);
     } catch (error) {
       Alert.alert('Error', 'No se pudo enviar la imagen: ' + error.message);
     }
@@ -351,15 +357,29 @@ const App = () => {
         placeholder="IP del servidor"
         value={ip}
         onChangeText={setIp}
+        placeholderTextColor="white"
       />
       <TextInput
         style={styles.input}
         placeholder="Puerto del servidor"
         value={puerto}
         onChangeText={setPuerto}
+        placeholderTextColor="white"
       />
       <Button title="Tomar Foto" onPress={tomarFoto} />
-      <Button title="Enviar Imagen" onPress={enviarImagen} />
+      <Button title="Clasificar Imagen" onPress={enviarImagen} />
+
+      {respuesta && (
+        <ScrollView style={styles.responseContainer}>
+          <Text style={styles.responseTitle}>La imagen se puede clasificar en:</Text>
+          {respuesta.map((item, index) => (
+            <View key={index} style={styles.tableRow}>
+              <Text style={styles.tableCell}>Class Name: {item.class_name}</Text>
+              <Text style={styles.tableCell}>Probability: {(item.probability * 100).toFixed(2)}%</Text>
+            </View>
+          ))}
+        </ScrollView>
+      )}
     </View>
   );
 };
@@ -369,11 +389,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     padding: 20,
+    backgroundColor: '#f5f5f5',
   },
   title: {
     fontSize: 24,
     textAlign: 'center',
     marginBottom: 20,
+    color: 'black',
   },
   input: {
     height: 40,
@@ -381,6 +403,26 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 15,
     paddingLeft: 10,
+    backgroundColor: 'black',
+    color: 'white',
+  },
+  responseContainer: {
+    marginTop: 20,
+    paddingTop: 10,
+    borderTopWidth: 1,
+    borderTopColor: '#ddd',
+  },
+  responseTitle: {
+    fontSize: 18,
+    marginBottom: 10,
+    fontWeight: 'bold',
+  },
+  tableRow: {
+    marginBottom: 10,
+  },
+  tableCell: {
+    fontSize: 16,
+    color: 'black',
   },
 });
 

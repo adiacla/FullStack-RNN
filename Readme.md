@@ -148,8 +148,7 @@ uvicorn app:app --host 0.0.0.0 --port 8080 --reload
 La API estará disponible en http://<tu_ip_ec2>:8080.
 
 ---
-#2. Frontend en React Native
-# React Native en Windows 11
+# 2. Frontend en React Native: React Native en Windows 11
 
 ## 2.1. Instalar Node.js y npm
 
@@ -372,7 +371,7 @@ Asegúrate de que los permisos para la cámara estén configurados en tu archivo
 <uses-permission android:name="android.permission.CAMERA" />
 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-``
+```
 
 2.6 Ejecutar la App en el Emulador o en un Dispositivo Físico
 
@@ -391,8 +390,7 @@ Configura el emulador con una imagen de Android y asegúrate de que adb detecte 
 ``bash
 adb devices
 
-``
-
+```
 ---
 
 # 3. Despliegue Final

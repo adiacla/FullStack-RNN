@@ -152,7 +152,7 @@ La API estará disponible en http://<tu_ip_ec2>:8080.
 
 ## 2.1. Instalar Node.js y npm
 
-Descarga e instala la última versión LTS de Node.js desde la página oficial de Node.js.
+Descarga e instala la  versión 18  LTS de Node.js desde la página oficial de Node.js.
 
 Esto también instalará npm automáticamente.
 
@@ -165,11 +165,12 @@ npm -v
 ## 2.2. Instalar React Native CLI
 Usaremos el React Native CLI para gestionar el proyecto.
 
-Instala el CLI de forma global:
+Si tienes las ultimas versiones npx no hay necesidad de hacer esto
 
 ```bash
-npm install -g react-native-cli
-Verifica que React Native CLI se instaló correctamente:
+NO usar
+npm uninstall -g react-native-cli
+
 ```
 
 ```bash
@@ -252,9 +253,10 @@ Esto debería listar tu dispositivo.
 Crea un nuevo proyecto:
 
 ```bash
-npx react-native init PrediccionCompra
+npx react-native init imagen
 cd PrediccionCompra
 ```
+npm uninstall -g react-native-cli
 
 Abre el proyecto en Visual Studio Code:
 

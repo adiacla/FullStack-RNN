@@ -150,77 +150,66 @@ La API estará disponible en http://<tu_ip_ec2>:8080.
 ---
 # 2. Frontend en React Native: React Native en Windows 11
 
-## 2.1. Instalar Node.js y npm
 
-Descarga e instala la  versión 18  LTS de Node.js desde la página oficial de Node.js.
+Node.js y npm:
 
-Esto también instalará npm automáticamente.
-
-> Verifica la instalación:
-
-```bash
+Verifica la instalación de Node.js y npm ejecutando en la terminal:
+bash
+Copiar
 node -v
 npm -v
-```
-## 2.2. Instalar React Native CLI
-Usaremos el React Native CLI para gestionar el proyecto.
+Si no ves la versión de Node.js (al menos v18.x.x) o npm (v10.x.x), descarga e instala la versión LTS de Node.js desde aquí.
+Java Development Kit (JDK):
 
-Si tienes las ultimas versiones npx no hay necesidad de hacer esto
+Tienes que tener instalado JDK 17, como mencionaste.
+Verifica la instalación del JDK ejecutando en la terminal:
+bash
+Copiar
+java -version
+javac -version
+Si no tienes el JDK correctamente instalado, puedes descargarlo desde AdoptOpenJDK o desde el sitio de Oracle.
+Android Studio:
 
-```bash
-NO usar
+Verifica la instalación de Android Studio. Abre Android Studio y asegúrate de que el Android SDK y el Android Virtual Device (AVD) estén correctamente instalados.
+
+Dentro de Android Studio, ve a SDK Manager y asegúrate de que estén instaladas las siguientes herramientas:
+
+Android SDK Platform 35.
+Intel x86 Atom System Image o Google APIs Intel x86 Atom System Image.
+Android SDK Build Tools 35.0.0.
+Si no tienes el AVD (Android Virtual Device), crea uno. Si tienes un dispositivo físico Android, puedes usarlo directamente conectándolo al PC a través de USB y habilitando la depuración USB en tu dispositivo.
+
+Variables de Entorno: Verifica que las variables de entorno estén correctamente configuradas:
+
+ANDROID_HOME debe apuntar a la carpeta de instalación del SDK de Android. Por ejemplo:
+plaintext
+Copiar
+%LOCALAPPDATA%\Android\Sdk
+Asegúrate de que la ruta a platform-tools esté en el PATH. Deberías añadir algo como:
+plaintext
+Copiar
+%LOCALAPPDATA%\Android\Sdk\platform-tools
+Paso 2: Limpiar posibles residuos de instalaciones previas
+Si has tenido problemas con instalaciones previas, es recomendable limpiar completamente las dependencias globales de npm y React Native.
+
+Eliminar React Native CLI globalmente: Si tienes instalado react-native-cli globalmente, elimínalo:
+
+bash
+Copiar
 npm uninstall -g react-native-cli
+Eliminar la caché de npm: Borra la caché de npm para evitar problemas con dependencias:
 
-```
+bash
+Copiar
+npm cache clean --force
+Reinstalar React Native CLI: Ahora, instala React Native CLI nuevamente, pero solo si es necesario. La recomendación es usar npx para inicializar el proyecto sin necesidad de instalarlo globalmente:
 
-```bash
-react-native -v
-```
-## 2.3. Ajustes necesarios con Android Studio instalado
-Ubicación del SDK existente: Android Studio ya instala el Android SDK por defecto. La ubicación del SDK se puede encontrar en Android Studio:
+bash
+Copiar
+npm install -g @react-native-community/cli
+Paso 3: Crear el Proyecto de React Native
+Una vez que todo esté instalado y configurado correctamente, crea un nuevo proyecto de React Native con el siguiente comando:
 
-** Abre Android Studio. **
-Ve a File > Settings > Appearance & Behavior > System Settings > Android SDK.
-Allí verás la ubicación del SDK, algo como:
-```text
-C:\Users\<tu_usuario>\AppData\Local\Android\Sdk
-C:\Users\adiaz\AppData\Local\Android\Sdk
-```
-Usa esta ruta para agregar las herramientas a las variables de entorno.
-Ajustar las Variables de Entorno de Windows: Agrega estas rutas a la variable Path (reemplaza <ruta_del_sdk> con la ubicación obtenida en el paso anterior):
-
-```plaintext
-<ruta_del_sdk>\cmdline-tools\latest\bin
-C:\Users\adiaz\AppData\Local\Android\Sdk\cmdline-tools\latest\bin
-<ruta_del_sdk>\platform-tools
-C:\Users\adiaz\AppData\Local\Android\Sdk\platform-tools
-Verificar las herramientas existentes: Abre una terminal (PowerShell o CMD) y ejecuta:
-```
-
-Si no tiene cmdline-tools lo instala de https://developer.android.com/studio?hl=es-419#command-line-tools-only está en la parte de abajo. Se descomprime el archivo descargdo y se copia en la ruta.
-
-```bash
-sdkmanager --list
-
-```
-Esto te mostrará las herramientas y plataformas instaladas. Si tiene error entonces Asegurarte de que Java está instalado. El SDK Manager requiere Java. Asegúrate de que tienes una versión de Java instalada en tu sistema. Se recomienda Java Development Kit (JDK), preferiblemente la versión 11 o superior.
-Descarga e instala Java JDK desde Oracle o AdoptOpenJDK.
-
-```bash
-sdkmanager --list
-```
-Si falta alguna herramienta o versión, puedes instalarla con:
-
-```bash
-sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
-```
-
-Evitar instalar las herramientas ya configuradas en Android Studio: Si ya tienes configurado lo siguiente desde Android Studio, no necesitas repetirlo:
-
-Google Play Intel x86_64 Atom System Image.
-Android SDK Platform.
-Android Emulator.
-Platform-tools.
 
 Verificar adb (Android Debug Bridge): Después de configurar las variables de entorno, verifica que el comando adb funciona:
 
@@ -253,7 +242,7 @@ Esto debería listar tu dispositivo.
 Crea un nuevo proyecto:
 
 ```bash
-npx react-native init imagen
+ npx @react-native-community/cli init imagen
 cd PrediccionCompra
 ```
 npm uninstall -g react-native-cli

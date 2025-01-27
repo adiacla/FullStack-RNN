@@ -52,7 +52,7 @@ sudo apt install python3-pip python3-venv
 **Crear y activar un entorno virtual**
  ```bash
 
-python3 -m venv myenv
+python3 -m venv venv
 source myenv/bin/activate
  ```
 
@@ -120,13 +120,6 @@ if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8080)
 ```
 
-Use para editar el proyecto
-
-nano proyecto.py 
-
-copie el codigo del backend en EC2
-on CTRL X sale y guaruda
-
 ## Pueba del Backend
 Puedes usar la prueba manual
 
@@ -147,7 +140,7 @@ Ademas puedes usar Postman en post para enviar imagenes.
 Para ejecutar el servidor de FastAPI, usa Uvicorn:
 
  ```bash
-
+source venv/bin/activate
 uvicorn app:app --host 0.0.0.0 --port 8080 --reload
  ```
 

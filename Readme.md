@@ -154,85 +154,88 @@ La API estará disponible en http://<tu_ip_ec2>:8080.
 Node.js y npm:
 
 Verifica la instalación de Node.js y npm ejecutando en la terminal:
-bash
-Copiar
+ ```bash
+
 node -v
 npm -v
-Si no ves la versión de Node.js (al menos v18.x.x) o npm (v10.x.x), descarga e instala la versión LTS de Node.js desde aquí.
-Java Development Kit (JDK):
+ ```
 
-Tienes que tener instalado JDK 17, como mencionaste.
-Verifica la instalación del JDK ejecutando en la terminal:
-bash
-Copiar
-java -version
-javac -version
-Si no tienes el JDK correctamente instalado, puedes descargarlo desde AdoptOpenJDK o desde el sitio de Oracle.
-Android Studio:
+Si no ves la versión de Node.js (al menos v18.x.x) o npm (v10.x.x), descarga e instala la versión LTS de Node.js desde aquí.
+
+https://reactnative.dev/docs/set-up-your-environment
+
+Va a requerir primero bajar 
+
+https://chocolatey.org/install
+
+Todos los pasos los puede verificar aqui
+
+ https://youtu.be/nwXUXt_QqU8?si=dWjeavfLB06cz-bo
+
 
 Verifica la instalación de Android Studio. Abre Android Studio y asegúrate de que el Android SDK y el Android Virtual Device (AVD) estén correctamente instalados.
 
 Dentro de Android Studio, ve a SDK Manager y asegúrate de que estén instaladas las siguientes herramientas:
 
 Android SDK Platform 35.
-Intel x86 Atom System Image o Google APIs Intel x86 Atom System Image.
+Intel x86 Atom System Image o Google APIs Intel x86 Atom System Image. (depende el procesador de tu maquina)
 Android SDK Build Tools 35.0.0.
+
 Si no tienes el AVD (Android Virtual Device), crea uno. Si tienes un dispositivo físico Android, puedes usarlo directamente conectándolo al PC a través de USB y habilitando la depuración USB en tu dispositivo.
 
 Variables de Entorno: Verifica que las variables de entorno estén correctamente configuradas:
 
 ANDROID_HOME debe apuntar a la carpeta de instalación del SDK de Android. Por ejemplo:
-plaintext
-Copiar
+ ```plaintext
+
 %LOCALAPPDATA%\Android\Sdk
+ ```
 Asegúrate de que la ruta a platform-tools esté en el PATH. Deberías añadir algo como:
-plaintext
-Copiar
+ ```plaintext
+
 %LOCALAPPDATA%\Android\Sdk\platform-tools
+ ```
+
 Paso 2: Limpiar posibles residuos de instalaciones previas
 Si has tenido problemas con instalaciones previas, es recomendable limpiar completamente las dependencias globales de npm y React Native.
 
 Eliminar React Native CLI globalmente: Si tienes instalado react-native-cli globalmente, elimínalo:
 
-bash
-Copiar
+ ```bash
+
 npm uninstall -g react-native-cli
+ ```
 Eliminar la caché de npm: Borra la caché de npm para evitar problemas con dependencias:
 
-bash
-Copiar
-npm cache clean --force
-Reinstalar React Native CLI: Ahora, instala React Native CLI nuevamente, pero solo si es necesario. La recomendación es usar npx para inicializar el proyecto sin necesidad de instalarlo globalmente:
+ ```bash
 
-bash
-Copiar
-npm install -g @react-native-community/cli
-Paso 3: Crear el Proyecto de React Native
+npm cache clean --force
+ ```
+
+## Paso 3: Crear el Proyecto de React Native
 Una vez que todo esté instalado y configurado correctamente, crea un nuevo proyecto de React Native con el siguiente comando:
 
+Ejecutar directamente en Node.js Command Prompt
+Si prefieres no modificar las políticas de PowerShell, puedes usar el terminal proporcionado por Node.js:
 
-Verificar adb (Android Debug Bridge): Después de configurar las variables de entorno, verifica que el comando adb funciona:
+Abre Node.js Command Prompt (generalmente instalado junto con Node.js).
+Ejecuta tu comando:
+ ```bash
+npx @react-native-community/cli init imagenes (imagenes es el nombre del proyecto)
 
-```bash
+ ```
 
-adb version
-```
-
-Esto debería mostrar la versión de adb instalada.
 
 Conectar tu dispositivo físico:
+En adroide puedes configurar un    dispositivo virtual
+}
+En fisico:
 
 Habilita Depuración por USB en tu dispositivo:
 Ve a Configuración > Acerca del teléfono.
 Toca varias veces en "Número de compilación" para habilitar el modo desarrollador.
 Ve a Opciones de desarrollador y activa Depuración USB.
 Conecta tu dispositivo a tu computadora con un cable USB.
-Ejecuta:
-
-```bash
-
-adb devices
-```
 
 Esto debería listar tu dispositivo.
 
@@ -242,20 +245,51 @@ Esto debería listar tu dispositivo.
 Crea un nuevo proyecto:
 
 ```bash
- npx @react-native-community/cli init imagen
-cd PrediccionCompra
-```
-npm uninstall -g react-native-cli
 
-Abre el proyecto en Visual Studio Code:
+cd imagenes
+
+npm cache clean --force
+npx react-native run-android
+```
+Instalar dependencias necesarias: Después de agregar el archivo App.js, asegúrate de que las dependencias que usas, como axios para HTTP y expo-image-picker, estén instaladas.
+Instalaciones Requeridas: Asegúrate de haber instalado las dependencias necesarias:
+
+```bash
+npm install axios
+expo install expo-image-picker
+```
+
+## Error al correr la aplicacion
+
+l error principal está relacionado con el plugin com.facebook.react.settings en el archivo settings.gradle, y la incapacidad de Gradle para mover archivos temporales en la carpeta .gradle.
+
+Soluciones Posibles
+1. Limpiar el Caché de Gradle
+A veces, el problema ocurre debido a un caché corrupto. Limpia los archivos temporales de Gradle:
+Abre una terminal y ejecuta:
+
+```bash
+cd android
+gradlew clean
+```
+Si el comando falla, ejecuta:
+
+``` bash
+./gradlew clean
+
+Borra manualmente la carpeta .gradle:
+
+Navega a C:\Users\USUARIO\imagenes\android\.
+Borra la carpeta .gradle.
+Intenta compilar nuevamente:
 
 ```bash
 
-code .
+npx react-native run-android
 ```
-Instalar dependencias necesarias: Después de agregar el archivo App.js, asegúrate de que las dependencias que usas, como axios para HTTP y expo-image-picker, estén instaladas.
 
-Ejecuta estos comandos en tu terminal dentro del directorio de tu proyecto:
+
+Crea el archivo app.tsx y ejecuta estos comandos en tu terminal dentro del directorio de tu proyecto:
 
 ```bash
 import React, { useState } from 'react';
@@ -355,7 +389,7 @@ export default App;
 
 ```
 ## 2.5 Permisos en AndroidManifest.xml
-Asegúrate de que los permisos para la cámara estén configurados en tu archivo AndroidManifest.xml:
+Asegúrate de que los permisos para la cámara estén configurados en tu archivo AndroidManifest.xml: en C:\Users\USUARIO\imagenes\android\app\src\main\AndroidManifest.xml
 
 ```xml
 
@@ -371,7 +405,6 @@ Conectar un dispositivo Android físico y habilitar la Depuración USB en las Op
 Ejecutar el Proyecto en un Dispositivo Físico:
 
 ```bash
-
 npx react-native run-android
 ```
 Emulador de Android: Si prefieres usar un emulador, puedes instalar Genymotion como alternativa al emulador de Android Studio:
@@ -380,7 +413,6 @@ Descargar Genymotion.
 Configura el emulador con una imagen de Android y asegúrate de que adb detecte el emulador:
 ```bash
 adb devices
-
 ```
 ---
 

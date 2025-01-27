@@ -387,7 +387,7 @@ Emulador de Android: Si prefieres usar un emulador, puedes instalar Genymotion c
 
 Descargar Genymotion.
 Configura el emulador con una imagen de Android y asegúrate de que adb detecte el emulador:
-``bash
+```bash
 adb devices
 
 ```

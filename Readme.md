@@ -255,7 +255,7 @@ Instalaciones Requeridas: Asegúrate de haber instalado las dependencias necesar
 
 ```bash
 npm install axios
-expo install expo-image-picker
+npm install --save expo-image-picker
 ```
 
 ## Error al correr la aplicacion

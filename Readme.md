@@ -148,9 +148,10 @@ uvicorn app:app --host 0.0.0.0 --port 8080 --reload
 La API estará disponible en http://<tu_ip_ec2>:8080.
 
 ---
-
+#2. Frontend en React Native
 # React Native en Windows 11
-## 1. Instalar Node.js y npm
+
+## 2.1. Instalar Node.js y npm
 
 Descarga e instala la última versión LTS de Node.js desde la página oficial de Node.js.
 
@@ -162,7 +163,7 @@ Esto también instalará npm automáticamente.
 node -v
 npm -v
 ```
-## 2. Instalar React Native CLI
+## 2.2. Instalar React Native CLI
 Usaremos el React Native CLI para gestionar el proyecto.
 
 Instala el CLI de forma global:
@@ -175,7 +176,7 @@ Verifica que React Native CLI se instaló correctamente:
 ```bash
 react-native -v
 ```
-### 3. Ajustes necesarios con Android Studio instalado
+## 2.3. Ajustes necesarios con Android Studio instalado
 Ubicación del SDK existente: Android Studio ya instala el Android SDK por defecto. La ubicación del SDK se puede encontrar en Android Studio:
 
 ** Abre Android Studio. **
@@ -248,7 +249,7 @@ Esto debería listar tu dispositivo.
 
 
 
-# 4. Crear el Proyecto React Native
+# 2.4. Crear el Proyecto React Native
 Crea un nuevo proyecto:
 
 ```bash
@@ -267,14 +268,6 @@ Instalar dependencias necesarias: Después de agregar el archivo App.js, asegúr
 Ejecuta estos comandos en tu terminal dentro del directorio de tu proyecto:
 
 ```bash
-npm install axios
-npm install expo-image-picker
-```
-# 5. Configurar la Interfaz de Usuario
-
-En el archivo App.js, usa el siguiente código para capturar la IP y puerto del servidor, tomar una foto desde el dispositivo y enviarla al backend:
-```javascript
-
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import axios from 'axios';
@@ -369,29 +362,46 @@ const styles = StyleSheet.create({
 });
 
 export default App;
+
 ```
+## 2.5 Permisos en AndroidManifest.xml
+Asegúrate de que los permisos para la cámara estén configurados en tu archivo AndroidManifest.xml:
 
+```xml
 
-# 6. Ejecutar el Proyecto en un Dispositivo Físico
-Conecta tu dispositivo Android al PC usando un cable USB.
-Ejecuta el proyecto en tu dispositivo:
+<uses-permission android:name="android.permission.CAMERA" />
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+``
+
+2.6 Ejecutar la App en el Emulador o en un Dispositivo Físico
+
+Conectar un dispositivo Android físico y habilitar la Depuración USB en las Opciones de Desarrollador.
+
+Ejecutar el Proyecto en un Dispositivo Físico:
+
 ```bash
+
 npx react-native run-android
 ```
+Emulador de Android: Si prefieres usar un emulador, puedes instalar Genymotion como alternativa al emulador de Android Studio:
 
-Tu app debería abrirse en el dispositivo físico.
-
-**Opcional:** Probar con Emulador sin Android Studio
-
-Usa Genymotion como alternativa al emulador de Android Studio:
-
-Descarga e instala Genymotion: https://www.genymotion.com/.
-Configura Genymotion con una imagen de Android.
-Asegúrate de que adb detecte el emulador:
-```bash
+Descargar Genymotion.
+Configura el emulador con una imagen de Android y asegúrate de que adb detecte el emulador:
+``bash
 adb devices
+
+``
+
+---
+
+# 3. Despliegue Final
+## 3.1 Revisar Configuración de Seguridad en AWS
+Asegúrate de que el grupo de seguridad en AWS permita el tráfico en el puerto 8080 y que tu servidor sea accesible desde fuera de la red privada.
+
+## 3.2 Generar la App para Producción
+Si todo funciona correctamente, puedes generar la versión de producción de la app:
+
+```bash
+npx react-native run-android --variant=release
 ```
-
-# 7. Desplegar la API y App
-
-Asegúrate de que tu API esté accesible desde tu dispositivo físico configurando el puerto y habilitando acceso público en tu servidor.

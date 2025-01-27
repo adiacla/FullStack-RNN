@@ -70,10 +70,11 @@ Crea un archivo app.py en tu instancia EC2 para definir la API que servirá las 
 nano app.py
  ```
 
- ```python
+
 Desarrollo del Backend API
 Usaremos FastAPI por su rendimiento y facilidad de uso. El backend aceptará una imagen, la procesará con el modelo VGG16 y devolverá la predicción.
 
+ ```python
 from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import JSONResponse
 from keras.applications.vgg16 import VGG16, preprocess_input, decode_predictions
@@ -117,7 +118,7 @@ async def predict(file: UploadFile = File(...)):
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8080)
+    uvicorn.run(app, host="0.0.0.0", port=8720)
 ```
 
 ## Pueba del Backend

@@ -3,6 +3,8 @@
 ## Objetivo
 Desarrollar una aplicación móvil para Android que capture una foto, la envíe a un servidor backend en AWS EC2 mediante una API REST, procese la imagen usando el modelo preentrenado VGG16 para clasificar el objeto en la imagen y muestre la predicción en la aplicación móvil.
 
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Screenshot_2025-01-28-17-35-27-25_a76c364ee29521e4906812fb8cfe2a52.jpg?raw=true)
+
 ## Estructura del Taller
 ### Requisitos del Proyecto
 
@@ -362,35 +364,6 @@ npm install react-native-image-picker
 ```bash
 npm install react-native-tts
 ```
-## Error al correr la aplicacion
-
-l error principal está relacionado con el plugin com.facebook.react.settings en el archivo settings.gradle, y la incapacidad de Gradle para mover archivos temporales en la carpeta .gradle.
-
-Soluciones Posibles
-1. Limpiar el Caché de Gradle
-A veces, el problema ocurre debido a un caché corrupto. Limpia los archivos temporales de Gradle:
-Abre una terminal y ejecuta:
-
-```bash
-cd android
-gradlew clean
-```
-Si el comando falla, ejecuta:
-
-``` bash
-./gradlew clean
-
-Borra manualmente la carpeta .gradle:
-
-Navega a C:\Users\USUARIO\imagenes\android\.
-Borra la carpeta .gradle.
-Intenta compilar nuevamente:
-
-```bash
-
-npx react-native run-android
-```
-
 
 ## Paso 5: Crea el archivo app.tsx 
 Cambia el archivo app.tsx y ejecuta estos comandos en el Visual Studio Code dentro del directorio de tu proyecto:
@@ -640,7 +613,12 @@ Asegúrate de que los permisos para la cámara estén configurados en tu archivo
 
 ```
 
-## Paso 7: Ejecutar la App en el Emulador o en un Dispositivo Físico
+## Paso 7: Crea la carpeta assets
+En la raiz del proyecto crea una carpeta llamada assets en donde pongas la imagen del logo utilizada en el proyecto que podras encontrar en los recursos de este github
+
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Assets.PNG?raw=true)
+
+## Paso 8: Ejecutar la App en el Emulador o en un Dispositivo Físico
 
 Conectar un dispositivo Android físico y habilitar la Depuración USB en las Opciones de Desarrollador.
 
@@ -667,4 +645,33 @@ Si todo funciona correctamente, puedes generar la versión de producción de la 
 
 ```bash
 npx react-native run-android --variant=release
+```
+
+## Si tiene algun error al correr la aplicacion
+
+El error principal está relacionado con el plugin com.facebook.react.settings en el archivo settings.gradle, y la incapacidad de Gradle para mover archivos temporales en la carpeta .gradle.
+
+Soluciones Posibles
+1. Limpiar el Caché de Gradle
+A veces, el problema ocurre debido a un caché corrupto. Limpia los archivos temporales de Gradle:
+Abre una terminal y ejecuta:
+
+```bash
+cd android
+gradlew clean
+```
+Si el comando falla, ejecuta:
+
+``` bash
+./gradlew clean
+
+Borra manualmente la carpeta .gradle:
+
+Navega a C:\Users\USUARIO\imagenes\android\.
+Borra la carpeta .gradle.
+Intenta compilar nuevamente:
+
+```bash
+
+npx react-native run-android
 ```

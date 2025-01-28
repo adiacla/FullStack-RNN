@@ -28,7 +28,13 @@ Desarrollar una aplicación móvil para Android que capture una foto, la envíe 
 ### 1.1 **Configurar la Instancia EC2 en AWS**
 
 1. Inicia una nueva **instancia EC2** en AWS (elige Ubuntu como sistema operativo).
+
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Instancia%20Ubuntu.PNG?raw=true)
+
 2. Abre un puerto en el grupo de seguridad (por ejemplo, puerto **8080**) para permitir acceso a la API.
+
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Puerto.PNG?raw=true)
+
 3. Si no puedes conectarse directamente a la instancia EC2, conectate  con SSH:
 
    ```bash
@@ -43,6 +49,8 @@ Una vez dentro de tu instancia EC2, instala Python 3, FastAPI y las dependencias
  ```bash
 sudo apt update
  ```
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/aptUpdate.PNG?raw=true)
+
 
 **Instalar pip y virtualenv**
  ```bash
@@ -81,6 +89,8 @@ Crea un archivo app.py en tu instancia EC2 para definir la API que servirá las 
  ```bash
 nano app.py
  ```
+
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/nanoApp.PNG?raw=true)
 
 
 Desarrollo del Backend API
@@ -171,7 +181,9 @@ uvicorn app:app --host 0.0.0.0 --port 8080 --reload
 
 ### 1.6 Error en el Servidor
 
-Si al momento de ejecutar el servidor te da un error de que se excede la memoria del sistema utiliza el siguiente comando y vuelve a intentarlo
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Error.PNG?raw=true)
+
+Si al momento de ejecutar el servidor te da un error como en el de la anterior imagen en el cual se excede la memoria del sistema utiliza el siguiente comando y vuelve a intentarlo
 
 ```bash
 sudo sync; sudo sysctl -w vm.drop_caches=3
@@ -189,7 +201,7 @@ Espera un JSON como respuesta con las predicciones.
 
 Utilizando postman deberias ver el siguiente resultado
 
-IMAGEN
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/postman.PNG?raw=true)
 
 La API estará disponible en http://<tu_ip_ec2>:8080.
 
@@ -224,27 +236,46 @@ Verifica la instalación de Android Studio. Abre Android Studio y asegúrate de 
 Dentro de Android Studio, ve a SDK Manager y asegúrate de que estén instaladas las siguientes herramientas:
 
 Android SDK Platform 35.
+
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/SDK35.PNG?raw=true)
+
 Intel x86 Atom System Image o Google APIs Intel x86 Atom System Image. (depende el procesador de tu maquina)
+
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Intelx86.PNG?raw=true)
+
 Android SDK Build Tools 35.0.0.
+
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/BuildTools.PNG?raw=true)
 
 Si no tienes el AVD (Android Virtual Device), crea uno. Si tienes un dispositivo físico Android, puedes usarlo directamente conectándolo al PC a través de USB y habilitando la depuración USB en tu dispositivo.
 
-Si no tienes el command-line tools, entra a la pagina de Android Studio https://developer.android.com/studio?gad_source=1&gclid=EAIaIQobChMIie2A3uCYiwMVJ7VaBR2njTbJEAAYASAAEgIdWvD_BwE&gclsrc=aw.ds&hl=es-419
+Si no tienes el command-line tools, entra a la pagina de Android Studio 
+https://developer.android.com/studio?gad_source=1&gclid=EAIaIQobChMIie2A3uCYiwMVJ7VaBR2njTbJEAAYASAAEgIdWvD_BwE&gclsrc=aw.ds&hl=es-419
+
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/comandTools.PNG?raw=true)
 
 Una vez tienes el command-line tools debes extraerlo en el Android/SDK C:\Users\Smartcenter\AppData\Local\Android\Sdk
 
-Variables de Entorno de Usuario: Verifica que las variables de entorno estén correctamente configuradas:
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/cmdline-tools.PNG?raw=true)
+
+## Variables de Entorno de Usuario:
+Verifica que las variables de entorno estén correctamente configuradas:
 
 ANDROID_HOME debe apuntar a la carpeta de instalación del SDK de Android. Por ejemplo:
  ```plaintext
 
 %LOCALAPPDATA%\Android\Sdk
  ```
+
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/android_Home.PNG?raw=true)
+
 Asegúrate de que la ruta a platform-tools esté en el PATH. Deberías añadir algo como:
  ```plaintext
 
 %LOCALAPPDATA%\Android\Sdk\platform-tools
  ```
+
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/sdk_entorno.PNG?raw=true)
 
 ## Paso 2: Limpiar posibles residuos de instalaciones previas
 Si has tenido problemas con instalaciones previas, es recomendable limpiar completamente las dependencias globales de npm y React Native.
@@ -274,6 +305,8 @@ Ejecuta tu comando:
 npx @react-native-community/cli init imagenes (imagenes es el nombre del proyecto)
 
  ```
+
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/React.PNG?raw=true)
 
 
 Conectar tu dispositivo físico:
@@ -305,6 +338,11 @@ Ahora ejecuta el siguiente comando y veras la plantilla base de React Native
 npx react-native run-android
 ```
 
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/plantilla.PNG?raw=true)
+
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Screenshot_2025-01-28-15-47-27-28_be78f1e3c60d0ba7def362c0a150a54c.jpg?raw=true)
+
+
 ## Paso 4: Instalar dependencias necesarias: 
 Después de agregar el archivo App.js, asegúrate de que las dependencias que usas, como axios para HTTP y expo-image-picker, estén instaladas.
 Instalaciones Requeridas: Asegúrate de haber instalado las dependencias necesarias:
@@ -317,6 +355,9 @@ npm install --save expo-image-picker
 ```
 ```bash
 npm install react-native-permissions
+```
+```bash
+npm install react-native-image-picker
 ```
 ```bash
 npm install react-native-tts
@@ -355,16 +396,73 @@ npx react-native run-android
 Cambia el archivo app.tsx y ejecuta estos comandos en el Visual Studio Code dentro del directorio de tu proyecto:
 
 ```bash
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert, ScrollView } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TextInput, Button, StyleSheet, Alert, ScrollView, Platform, Image } from 'react-native';
 import axios from 'axios';
 import { launchCamera } from 'react-native-image-picker';
+import { PermissionsAndroid, Platform as RNPlatform } from 'react-native'; // Para permisos en Android
+import Tts from 'react-native-tts'; // Importa el paquete de texto a voz
 
 const App = () => {
   const [ip, setIp] = useState('');
   const [puerto, setPuerto] = useState('');
   const [imagen, setImagen] = useState(null);
   const [respuesta, setRespuesta] = useState(null);
+
+  // Función para solicitar permisos en Android
+  const requestPermissions = async () => {
+    if (Platform.OS === 'android') {
+      try {
+        const cameraPermission = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.CAMERA,
+          {
+            title: 'Permiso para usar la cámara',
+            message: 'La aplicación necesita acceso a la cámara para tomar fotos.',
+            buttonNeutral: 'Pregúntame después',
+            buttonNegative: 'Cancelar',
+            buttonPositive: 'Aceptar',
+          },
+        );
+
+        const storagePermission = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+          {
+            title: 'Permiso para usar el almacenamiento',
+            message: 'La aplicación necesita acceso al almacenamiento para guardar las fotos.',
+            buttonNeutral: 'Pregúntame después',
+            buttonNegative: 'Cancelar',
+            buttonPositive: 'Aceptar',
+          },
+        );
+
+        if (cameraPermission === PermissionsAndroid.RESULTS.GRANTED && storagePermission === PermissionsAndroid.RESULTS.GRANTED) {
+          console.log('Permisos concedidos');
+        } else {
+          console.log('Permisos denegados');
+        }
+      } catch (err) {
+        console.warn(err);
+      }
+    }
+  };
+
+  // Función para pedir permisos en iOS (si es necesario)
+  const checkPermissionsForiOS = async () => {
+    if (Platform.OS === 'ios') {
+      const result = await launchCamera({ mediaType: 'photo' });
+      if (result.errorCode) {
+        Alert.alert('Error', 'No se pudieron obtener permisos para la cámara.');
+      }
+    }
+  };
+
+  // Llamar las funciones de permisos al inicio
+  useEffect(() => {
+    requestPermissions();
+    checkPermissionsForiOS();
+    Tts.setDefaultLanguage('es-ES'); // Configura el idioma a español
+    Tts.setDefaultRate(0.5); // Configura la velocidad de la voz
+  }, []);
 
   const tomarFoto = async () => {
     const options = {
@@ -408,14 +506,34 @@ const App = () => {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       setRespuesta(response.data.predictions);
+      // Convertir la respuesta a voz
+      speakResponse(response.data.predictions);
     } catch (error) {
       Alert.alert('Error', 'No se pudo enviar la imagen: ' + error.message);
     }
   };
 
+  // Función para convertir la respuesta a voz
+  const speakResponse = (predictions) => {
+    if (predictions && predictions.length > 0) {
+      const speechText = predictions.map(item => {
+        return `La imagen se clasifica como ${item.class_name} con una probabilidad de ${(item.probability * 100).toFixed(2)}%.`;
+      }).join(' '); // Unir todas las predicciones en un solo texto
+      Tts.speak(speechText); // Convertir el texto a voz
+    }
+  };
+
   return (
+    
+
     <View style={styles.container}>
-      <Text style={styles.title}>Conexión al servidor</Text>
+
+      
+      <View style={styles.header}>
+        <Image source={require('./assets/logo.png')} style={styles.logo} />
+        <Text style={styles.title}>Reconocimiento de Imagenes</Text>
+      </View>
+
       <TextInput
         style={styles.input}
         placeholder="IP del servidor"
@@ -455,11 +573,27 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#f5f5f5',
   },
+  logo: {
+    width: 50,
+    height: 50,
+    marginRight: 1,
+    marginBottom:20,
+    
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 20,
+  },
   title: {
     fontSize: 24,
     textAlign: 'center',
     marginBottom: 20,
     color: 'black',
+    flexWrap: 'wrap',  // Permite el salto de línea
+    lineHeight: 30,    // Aumenta la altura de las líneas para que no se vean demasiado pegadas
+    width: '80%',      // Ajusta el ancho para que pueda hacer el salto de línea sin que el texto se desborde
   },
   input: {
     height: 40,

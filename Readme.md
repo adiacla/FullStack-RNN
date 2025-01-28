@@ -39,8 +39,8 @@ Desarrollar una aplicación móvil para Android que capture una foto, la envíe 
 ### 1.2 Instalar Dependencias en el Servidor EC2
 Una vez dentro de tu instancia EC2, instala Python 3, FastAPI y las dependencias necesarias:
 
- ```bash
 **Actualizar los paquetes**
+ ```bash
 sudo apt update
  ```
 

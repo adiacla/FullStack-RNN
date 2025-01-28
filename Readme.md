@@ -74,7 +74,7 @@ pip install pillow
 
  ```
 
-### 1.4 Crear la API FastAPI
+### 1.3 Crear la API FastAPI
 
 Crea un archivo app.py en tu instancia EC2 para definir la API que servirá las predicciones.
 
@@ -93,12 +93,24 @@ from keras.applications.vgg16 import VGG16, preprocess_input, decode_predictions
 from keras.utils import img_to_array, load_img
 import numpy as np
 import uvicorn
+import json
 
 app = FastAPI()
 
 # Cargar el modelo VGG16
-
 model = VGG16(weights="imagenet")
+
+# Cargar las traducciones desde el archivo
+def load_translations(file_path="traduccion.txt"):
+    try:
+        with open(file_path, "r") as f:
+            translations = json.load(f)
+        return translations
+    except Exception as e:
+        print(f"Error loading translations: {str(e)}")
+        return {}
+
+translations = load_translations("traduccion.txt")
 
 @app.post("/predict/")
 async def predict(file: UploadFile = File(...)):
@@ -117,11 +129,13 @@ async def predict(file: UploadFile = File(...)):
         predictions = model.predict(x)
         decoded_predictions = decode_predictions(predictions, top=3)[0]
 
-        # Formatear las predicciones
-        results = [
-            {"class_id": pred[0], "class_name": pred[1], "probability": float(pred[2])}
-            for pred in decoded_predictions
-        ]
+        # Formatear las predicciones con las traducciones en español
+        results = []
+        for pred in decoded_predictions:
+            class_id = pred[0]
+            class_name = translations.get(class_id, pred[1])  # Si no se encuentra, usamos el nombre en inglés
+            probability = float(pred[2])
+            results.append({"class_id": class_id, "class_name": class_name, "probability": probability})
 
         return JSONResponse(content={"predictions": results})
 
@@ -131,6 +145,7 @@ async def predict(file: UploadFile = File(...)):
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8720)
+
 ```
 
 ## Pueba del Backend
@@ -146,9 +161,9 @@ Espera un JSON como respuesta con las predicciones.
 
 Ademas puedes usar Postman en post para enviar imagenes.
 
-```
 
-### 1.5 Ejecutar el Servidor FastAPI
+
+### 1.4 Ejecutar el Servidor FastAPI
 
 Para ejecutar el servidor de FastAPI, usa Uvicorn:
 
@@ -159,13 +174,13 @@ uvicorn app:app --host 0.0.0.0 --port 8080 --reload
 
 La API estará disponible en http://<tu_ip_ec2>:8080.
 
----
+
 # 2. Frontend en React Native: React Native en Windows 11
 
 
 Node.js y npm:
 
-Verifica la instalación de Node.js y npm ejecutando en la terminal:
+## Paso 1: Verifica la instalación de Node.js y npm ejecutando en la terminal:
  ```bash
 
 node -v
@@ -195,7 +210,11 @@ Android SDK Build Tools 35.0.0.
 
 Si no tienes el AVD (Android Virtual Device), crea uno. Si tienes un dispositivo físico Android, puedes usarlo directamente conectándolo al PC a través de USB y habilitando la depuración USB en tu dispositivo.
 
-Variables de Entorno: Verifica que las variables de entorno estén correctamente configuradas:
+Si no tienes el command-line tools, entra a la pagina de Android Studio https://developer.android.com/studio?gad_source=1&gclid=EAIaIQobChMIie2A3uCYiwMVJ7VaBR2njTbJEAAYASAAEgIdWvD_BwE&gclsrc=aw.ds&hl=es-419
+
+Una vez tienes el command-line tools debes extraerlo en el Android/SDK C:\Users\Smartcenter\AppData\Local\Android\Sdk
+
+Variables de Entorno de Usuario: Verifica que las variables de entorno estén correctamente configuradas:
 
 ANDROID_HOME debe apuntar a la carpeta de instalación del SDK de Android. Por ejemplo:
  ```plaintext
@@ -208,7 +227,7 @@ Asegúrate de que la ruta a platform-tools esté en el PATH. Deberías añadir a
 %LOCALAPPDATA%\Android\Sdk\platform-tools
  ```
 
-Paso 2: Limpiar posibles residuos de instalaciones previas
+## Paso 2: Limpiar posibles residuos de instalaciones previas
 Si has tenido problemas con instalaciones previas, es recomendable limpiar completamente las dependencias globales de npm y React Native.
 
 Eliminar React Native CLI globalmente: Si tienes instalado react-native-cli globalmente, elimínalo:
@@ -227,8 +246,8 @@ npm cache clean --force
 ## Paso 3: Crear el Proyecto de React Native
 Una vez que todo esté instalado y configurado correctamente, crea un nuevo proyecto de React Native con el siguiente comando:
 
-Ejecutar directamente en Node.js Command Prompt
-Si prefieres no modificar las políticas de PowerShell, puedes usar el terminal proporcionado por Node.js:
+Ejecutar directamente en Node.js Command Prompt en Administrador,
+si prefieres no modificar las políticas de PowerShell, puedes usar el terminal proporcionado por Node.js:
 
 Abre Node.js Command Prompt (generalmente instalado junto con Node.js).
 Ejecuta tu comando:
@@ -240,7 +259,7 @@ npx @react-native-community/cli init imagenes (imagenes es el nombre del proyect
 
 Conectar tu dispositivo físico:
 En adroide puedes configurar un    dispositivo virtual
-}
+
 En fisico:
 
 Habilita Depuración por USB en tu dispositivo:
@@ -251,26 +270,38 @@ Conecta tu dispositivo a tu computadora con un cable USB.
 
 Esto debería listar tu dispositivo.
 
-
-
-# 2.4. Crear el Proyecto React Native
-Crea un nuevo proyecto:
+Accede a la carpeta de tu proyecto:
 
 ```bash
-
 cd imagenes
+```
 
+Luego realiza una limpieza del cache:
+```bash
 npm cache clean --force
+```
+
+Ahora ejecuta el siguiente comando y veras la plantilla base de React Native
+```bash
 npx react-native run-android
 ```
-Instalar dependencias necesarias: Después de agregar el archivo App.js, asegúrate de que las dependencias que usas, como axios para HTTP y expo-image-picker, estén instaladas.
+
+## Paso 4: Instalar dependencias necesarias: 
+Después de agregar el archivo App.js, asegúrate de que las dependencias que usas, como axios para HTTP y expo-image-picker, estén instaladas.
 Instalaciones Requeridas: Asegúrate de haber instalado las dependencias necesarias:
 
 ```bash
 npm install axios
+```
+```bash
 npm install --save expo-image-picker
 ```
-
+```bash
+npm install react-native-permissions
+```
+```bash
+npm install react-native-tts
+```
 ## Error al correr la aplicacion
 
 l error principal está relacionado con el plugin com.facebook.react.settings en el archivo settings.gradle, y la incapacidad de Gradle para mover archivos temporales en la carpeta .gradle.
@@ -301,7 +332,8 @@ npx react-native run-android
 ```
 
 
-Crea el archivo app.tsx y ejecuta estos comandos en tu terminal dentro del directorio de tu proyecto:
+## Paso 5: Crea el archivo app.tsx 
+Cambia el archivo app.tsx y ejecuta estos comandos en el Visual Studio Code dentro del directorio de tu proyecto:
 
 ```bash
 import React, { useState } from 'react';
@@ -442,17 +474,20 @@ const styles = StyleSheet.create({
 export default App;
 
 ```
-## 2.5 Permisos en AndroidManifest.xml
+## Paso 6: Permisos en AndroidManifest.xml
 Asegúrate de que los permisos para la cámara estén configurados en tu archivo AndroidManifest.xml: en C:\Users\USUARIO\imagenes\android\app\src\main\AndroidManifest.xml
 
 ```xml
 
 <uses-permission android:name="android.permission.CAMERA" />
 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+<uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION"/>
+
 
 ```
 
-2.6 Ejecutar la App en el Emulador o en un Dispositivo Físico
+## Paso 7: Ejecutar la App en el Emulador o en un Dispositivo Físico
 
 Conectar un dispositivo Android físico y habilitar la Depuración USB en las Opciones de Desarrollador.
 

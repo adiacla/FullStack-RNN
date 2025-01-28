@@ -157,6 +157,26 @@ nano traduccion.txt
 
 Una vez creado el archivo copia y pega el diccionario.txt encontrado en este github.
 
+
+### 1.5 Ejecutar el Servidor FastAPI
+
+Para ejecutar el servidor de FastAPI, usa Uvicorn:
+
+ ```bash
+source venv/bin/activate
+uvicorn app:app --host 0.0.0.0 --port 8080 --reload
+ ```
+
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/ServidorAws.PNG?raw=true)
+
+### 1.6 Error en el Servidor
+
+Si al momento de ejecutar el servidor te da un error de que se excede la memoria del sistema utiliza el siguiente comando y vuelve a intentarlo
+
+```bash
+sudo sync; sudo sysctl -w vm.drop_caches=3
+ ```
+
 ## Pueba del Backend
 Puedes usar la prueba manual
 
@@ -167,19 +187,9 @@ Usa herramientas como Postman o cURL para probar la API antes de integrarla con 
 curl -X POST -F "file=@image.jpg" http://ec2-54-164-41-174.compute-1.amazonaws.com:8080/predict/
 Espera un JSON como respuesta con las predicciones.
 
+Utilizando postman deberias ver el siguiente resultado
 
-Ademas puedes usar Postman en post para enviar imagenes.
-
-
-
-### 1.4 Ejecutar el Servidor FastAPI
-
-Para ejecutar el servidor de FastAPI, usa Uvicorn:
-
- ```bash
-source venv/bin/activate
-uvicorn app:app --host 0.0.0.0 --port 8080 --reload
- ```
+IMAGEN
 
 La API estará disponible en http://<tu_ip_ec2>:8080.
 

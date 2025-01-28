@@ -148,6 +148,15 @@ if __name__ == "__main__":
 
 ```
 
+### 1.4 Crear el Diccionario
+Para que nuestra app.py funcione es necesario crear un diccionario para hacer la traduccion al español, crea el siguiente archivo con este nombre
+
+ ```bash
+nano traduccion.txt
+ ```
+
+Una vez creado el archivo copia y pega el diccionario.txt encontrado en este github.
+
 ## Pueba del Backend
 Puedes usar la prueba manual
 

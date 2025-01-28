@@ -29,7 +29,7 @@ Desarrollar una aplicación móvil para Android que capture una foto, la envíe 
 
 1. Inicia una nueva **instancia EC2** en AWS (elige Ubuntu como sistema operativo).
 2. Abre un puerto en el grupo de seguridad (por ejemplo, puerto **8080**) para permitir acceso a la API.
-3. **Conéctate** a la instancia EC2 con SSH:
+3. Si no puedes conectarse directamente a la instancia EC2, conectate  con SSH:
 
    ```bash
    ssh -i "tu_clave.pem" ubuntu@<tu_ip_ec2>
@@ -53,12 +53,24 @@ sudo apt install python3-pip python3-venv
  ```bash
 
 python3 -m venv venv
-source myenv/bin/activate
+source venv/bin/activate
  ```
 
-**Instalar FastAPI, Uvicorn y Joblib**
+**Instalar FastAPI, Uvicorn, Joblib, TensorFlow, Python-Multipart, Pillow**
  ```bash
-pip install fastapi uvicorn keras 
+pip install fastapi uvicorn keras
+
+ ```
+```bash
+pip install tensorflow
+
+ ```
+```bash
+pip install python-multipart
+
+ ```
+```bash
+pip install pillow
 
  ```
 

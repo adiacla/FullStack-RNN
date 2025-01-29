@@ -3,7 +3,7 @@
 ## Objetivo
 Desarrollar una aplicación móvil para Android que capture una foto, la envíe a un servidor backend en AWS EC2 mediante una API REST, procese la imagen usando el modelo preentrenado VGG16 para clasificar el objeto en la imagen y muestre la predicción en la aplicación móvil.
 
-![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Screenshot_2025-01-28-17-35-27-25_a76c364ee29521e4906812fb8cfe2a52.jpg?raw=true)
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/Screenshot_2025-01-28-17-35-27-25_a76c364ee29521e4906812fb8cfe2a52.jpg?raw=true)
 
 ## Estructura del Taller
 ### Requisitos del Proyecto

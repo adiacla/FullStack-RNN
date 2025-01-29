@@ -31,11 +31,11 @@ Desarrollar una aplicación móvil para Android que capture una foto, la envíe 
 
 1. Inicia una nueva **instancia EC2** en AWS (elige Ubuntu como sistema operativo).
 
-![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Instancia%20Ubuntu.PNG?raw=true)
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/Instancia%20Ubuntu.PNG?raw=true)
 
 2. Abre un puerto en el grupo de seguridad (por ejemplo, puerto **8080**) para permitir acceso a la API.
 
-![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Puerto.PNG?raw=true)
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/Puerto.PNG?raw=true)
 
 3. Si no puedes conectarse directamente a la instancia EC2, conectate  con SSH:
 
@@ -51,7 +51,7 @@ Una vez dentro de tu instancia EC2, instala Python 3, FastAPI y las dependencias
  ```bash
 sudo apt update
  ```
-![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/aptUpdate.PNG?raw=true)
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/aptUpdate.PNG?raw=true)
 
 
 **Instalar pip y virtualenv**
@@ -92,7 +92,7 @@ Crea un archivo app.py en tu instancia EC2 para definir la API que servirá las 
 nano app.py
  ```
 
-![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/nanoApp.PNG?raw=true)
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/nanoApp.PNG?raw=true)
 
 
 Desarrollo del Backend API
@@ -179,11 +179,11 @@ source venv/bin/activate
 uvicorn app:app --host 0.0.0.0 --port 8080 --reload
  ```
 
-![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/ServidorAws.PNG?raw=true)
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/ServidorAws.PNG?raw=true)
 
 ### 1.6 Error en el Servidor
 
-![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Error.PNG?raw=true)
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/Error.PNG?raw=true)
 
 Si al momento de ejecutar el servidor te da un error como en el de la anterior imagen en el cual se excede la memoria del sistema utiliza el siguiente comando y vuelve a intentarlo
 
@@ -203,7 +203,7 @@ Espera un JSON como respuesta con las predicciones.
 
 Utilizando postman deberias ver el siguiente resultado
 
-![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/postman.PNG?raw=true)
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/postman.PNG?raw=true)
 
 La API estará disponible en http://<tu_ip_ec2>:8080.
 
@@ -239,26 +239,26 @@ Dentro de Android Studio, ve a SDK Manager y asegúrate de que estén instaladas
 
 Android SDK Platform 35.
 
-![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/SDK35.PNG?raw=true)
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/SDK35.PNG?raw=true)
 
 Intel x86 Atom System Image o Google APIs Intel x86 Atom System Image. (depende el procesador de tu maquina)
 
-![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Intelx86.PNG?raw=true)
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/Intelx86.PNG?raw=true)
 
 Android SDK Build Tools 35.0.0.
 
-![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/BuildTools.PNG?raw=true)
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/BuildTools.PNG?raw=true)
 
 Si no tienes el AVD (Android Virtual Device), crea uno. Si tienes un dispositivo físico Android, puedes usarlo directamente conectándolo al PC a través de USB y habilitando la depuración USB en tu dispositivo.
 
 Si no tienes el command-line tools, entra a la pagina de Android Studio 
 https://developer.android.com/studio?gad_source=1&gclid=EAIaIQobChMIie2A3uCYiwMVJ7VaBR2njTbJEAAYASAAEgIdWvD_BwE&gclsrc=aw.ds&hl=es-419
 
-![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/comandTools.PNG?raw=true)
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/comandTools.PNG?raw=true)
 
 Una vez tienes el command-line tools debes extraerlo en el Android/SDK C:\Users\Smartcenter\AppData\Local\Android\Sdk
 
-![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/cmdline-tools.PNG?raw=true)
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/cmdline-tools.PNG?raw=true)
 
 ## Variables de Entorno de Usuario:
 Verifica que las variables de entorno estén correctamente configuradas:
@@ -269,7 +269,7 @@ ANDROID_HOME debe apuntar a la carpeta de instalación del SDK de Android. Por e
 %LOCALAPPDATA%\Android\Sdk
  ```
 
-![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/android_Home.PNG?raw=true)
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/android_Home.PNG?raw=true)
 
 Asegúrate de que la ruta a platform-tools esté en el PATH. Deberías añadir algo como:
  ```plaintext
@@ -277,7 +277,7 @@ Asegúrate de que la ruta a platform-tools esté en el PATH. Deberías añadir a
 %LOCALAPPDATA%\Android\Sdk\platform-tools
  ```
 
-![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/sdk_entorno.PNG?raw=true)
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/sdk_entorno.PNG?raw=true)
 
 ## Paso 2: Limpiar posibles residuos de instalaciones previas
 Si has tenido problemas con instalaciones previas, es recomendable limpiar completamente las dependencias globales de npm y React Native.
@@ -308,7 +308,7 @@ npx @react-native-community/cli init imagenes (imagenes es el nombre del proyect
 
  ```
 
-![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/React.PNG?raw=true)
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/React.PNG?raw=true)
 
 
 Conectar tu dispositivo físico:
@@ -340,9 +340,9 @@ Ahora ejecuta el siguiente comando y veras la plantilla base de React Native
 npx react-native run-android
 ```
 
-![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/plantilla.PNG?raw=true)
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/plantilla.PNG?raw=true)
 
-![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Screenshot_2025-01-28-15-47-27-28_be78f1e3c60d0ba7def362c0a150a54c.jpg?raw=true)
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/Screenshot_2025-01-28-15-47-27-28_be78f1e3c60d0ba7def362c0a150a54c.jpg?raw=true)
 
 
 ## Paso 4: Instalar dependencias necesarias: 
@@ -373,7 +373,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert, ScrollView, Platform, Image } from 'react-native';
 import axios from 'axios';
 import { launchCamera } from 'react-native-image-picker';
-import { PermissionsAndroid, Platform as RNPlatform } from 'react-native'; // Para permisos en Android
+import { PermissionsAndroid, Platform as RNPlatform } from 'react-native'; 
 import Tts from 'react-native-tts'; // Importa el paquete de texto a voz
 
 const App = () => {
@@ -433,8 +433,8 @@ const App = () => {
   useEffect(() => {
     requestPermissions();
     checkPermissionsForiOS();
-    Tts.setDefaultLanguage('es-ES'); // Configura el idioma a español
-    Tts.setDefaultRate(0.5); // Configura la velocidad de la voz
+    Tts.setDefaultLanguage('es-ES'); 
+    Tts.setDefaultRate(0.5); 
   }, []);
 
   const tomarFoto = async () => {
@@ -564,9 +564,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 20,
     color: 'black',
-    flexWrap: 'wrap',  // Permite el salto de línea
-    lineHeight: 30,    // Aumenta la altura de las líneas para que no se vean demasiado pegadas
-    width: '80%',      // Ajusta el ancho para que pueda hacer el salto de línea sin que el texto se desborde
+    flexWrap: 'wrap',  
+    lineHeight: 30,    
+    width: '80%',      
   },
   input: {
     height: 40,
@@ -616,7 +616,7 @@ Asegúrate de que los permisos para la cámara estén configurados en tu archivo
 ## Paso 7: Crea la carpeta assets
 En la raíz del proyecto crea una carpeta llamada assets en donde pongas la imagen del logo utilizada en el proyecto que podrás encontrar en los recursos de este github
 
-![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Assets.PNG?raw=true)
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/Assets.PNG?raw=true)
 
 ## Paso 8: Ejecutar la App en el Emulador o en un Dispositivo Físico
 

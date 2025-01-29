@@ -614,7 +614,7 @@ Asegúrate de que los permisos para la cámara estén configurados en tu archivo
 ```
 
 ## Paso 7: Crea la carpeta assets
-En la raiz del proyecto crea una carpeta llamada assets en donde pongas la imagen del logo utilizada en el proyecto que podras encontrar en los recursos de este github
+En la raíz del proyecto crea una carpeta llamada assets en donde pongas la imagen del logo utilizada en el proyecto que podrás encontrar en los recursos de este github
 
 ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Assets.PNG?raw=true)
 
@@ -664,7 +664,7 @@ Si el comando falla, ejecuta:
 
 ``` bash
 ./gradlew clean
-
+```
 Borra manualmente la carpeta .gradle:
 
 Navega a C:\Users\USUARIO\imagenes\android\.
@@ -672,6 +672,5 @@ Borra la carpeta .gradle.
 Intenta compilar nuevamente:
 
 ```bash
-
 npx react-native run-android
 ```

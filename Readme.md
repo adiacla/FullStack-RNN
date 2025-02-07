@@ -45,7 +45,7 @@ Desarrollar una aplicación móvil para Android que capture una foto, la envíe 
 ---
 
 ### 1.2 Instalar Dependencias en el Servidor EC2
-Una vez dentro de tu instancia EC2, instala Python 3, FastAPI y las dependencias necesarias:
+Una vez dentro de tu instancia EC2, instala Python 3, FastAPI y las dependencias necesarias para ello debes crear una carpeta en donde realizaras las instalaciones:
 
 **Actualizar los paquetes**
  ```bash
@@ -57,6 +57,16 @@ sudo apt update
 **Instalar pip y virtualenv**
  ```bash
 sudo apt install python3-pip python3-venv
+ ```
+
+**Crear la carpeta**
+ ```bash
+mkdir -nombre de tu carpeta
+ ```
+
+**Accede a tu carpeta**
+ ```bash
+cd -nombre de tu carpeta
  ```
 
 **Crear y activar un entorno virtual**
@@ -168,6 +178,12 @@ nano traduccion.txt
  ```
 
 Una vez creado el archivo copia y pega el diccionario.txt encontrado en este github.
+Tambien puedes descargarlo directamente accediendo al archivo del diccionario, darle click en raw y copiar la URL que te sale, luego ve a tu carpeta donde tienes el proyecto y ejecuta el siguiente comando
+
+
+ ```bash
+wget https://raw.githubusercontent.com/adiacla/FullStack-RNN/refs/heads/main/traduccion.txt
+ ```
 
 
 ### 1.5 Ejecutar el Servidor FastAPI
@@ -233,7 +249,9 @@ Todos los pasos los puede verificar aqui
  https://youtu.be/nwXUXt_QqU8?si=dWjeavfLB06cz-bo
 
 
-Verifica la instalación de Android Studio. Abre Android Studio y asegúrate de que el Android SDK y el Android Virtual Device (AVD) estén correctamente instalados.
+Verifica la instalación de Android Studio. Abre Android Studio y asegúrate de que el Android SDK y el Android Virtual Device (AVD) estén correctamente instalados, en el siguiente link puedes realizar la descarga.
+
+https://developer.android.com/studio?hl=es-419&_gl=1*5t55h4*_up*MQ..&gclid=EAIaIQobChMIie2A3uCYiwMVJ7VaBR2njTbJEAAYASAAEgIdWvD_BwE&gclsrc=aw.ds
 
 Dentro de Android Studio, ve a SDK Manager y asegúrate de que estén instaladas las siguientes herramientas:
 

@@ -665,6 +665,71 @@ Si todo funciona correctamente, puedes generar la versión de producción de la 
 npx react-native run-android --variant=release
 ```
 
+# Si no funciona el despliegue de esa manera siga los siguientes pasos
+## Paso 1. Genere un almacén de claves
+Necesitará una clave de firma generada por Java, que es un archivo de almacén de claves que se utiliza para generar un binario ejecutable React Native para Android. Puede crear uno usando la herramienta de teclas en la terminal con el siguiente comando
+
+```bash
+keytool -genkey -v -keystore your_key_name.keystore -alias your_key_alias -keyalg RSA -keysize 2048 -validity 10000
+```
+Una vez que ejecute la utilidad keytool, se le pedirá que ingrese una contraseña. * Asegúrate de recordar la contraseña.
+Puede cambiar your_key_name con el nombre que desee, así como your_key_alias. Esta clave usa el tamaño de clave 2048, en lugar del 1024 predeterminado por razones de seguridad.
+
+## Paso 2. Agregar almacén de claves a su proyecto
+En primer lugar, debe copiar el archivo your_key_name.keystore y pegarlo en el directorio android/app en la carpeta de su proyecto React Native.
+
+En la terminal:
+
+```bash
+mv my-release-key.keystore /android/app
+```
+
+Debe abrir su archivo android\app\build.gradle y agregar la configuración del almacén de claves. Hay dos formas de configurar el proyecto con keystore. Primero, la forma común y no segura:
+
+```bash
+signingConfigs {
+  release {
+    storeFile file('your_key_name.keystore')
+    storePassword System.console().readLine("\nKeystore password:")
+    keyAlias System.console().readLine("\nAlias: ")
+    keyPassword System.console().readLine("\Alias password: ")
+   }
+}
+```
+
+Esta no es una buena práctica de seguridad, ya que almacena la contraseña en texto sin formato. En lugar de almacenar la contraseña del almacén de claves en un archivo .gradle, puede estipular que el proceso de compilación le solicite estas contraseñas si está compilando desde la línea de comandos.
+Para solicitar una contraseña con el archivo de compilación de Gradle, cambie la configuración anterior como:
+
+
+```bash
+signingConfigs {
+  release {
+    storeFile file('your_key_name.keystore')
+    storePassword System.console().readLine("\nKeystore password:")
+    keyAlias System.console().readLine("\nAlias: ")
+    keyPassword System.console().readLine("\Alias password: ")
+   }
+}
+```
+
+```bash
+react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle 
+--assets-dest android/app/src/main/res/
+```
+
+## Paso 3. Lanzamiento de la generación de APK
+Coloque su directorio de terminal en Android usando:
+
+```bash
+cd android
+```
+
+Para Windows
+
+```bash
+gradlew assembleRelease
+```
+
 ## Si tiene algun error al correr la aplicacion
 
 El error principal está relacionado con el plugin com.facebook.react.settings en el archivo settings.gradle, y la incapacidad de Gradle para mover archivos temporales en la carpeta .gradle.

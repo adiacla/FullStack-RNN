@@ -37,7 +37,8 @@ Desarrollar una aplicación móvil para Android que capture una foto, la envíe 
 
 ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/Puerto.PNG?raw=true)
 
-3. Si no puedes conectarse directamente a la instancia EC2, conectate  con SSH:
+3. Si no puedes conectarse directamente a la instancia EC2, conectate  con SSH, es decir en la consola de administración de instancia creada ay unaopcion de "Conectar", hace clic y luego connectar otra vez. Si no puede conectarse puedo hacer con el SS: 
+   
 
    ```bash
    ssh -i "tu_clave.pem" ubuntu@<tu_ip_ec2>

@@ -61,6 +61,20 @@ Desarrollar una aplicación móvil para Android que capture una foto, la envíe 
 8. Configure el almacenamiento. Este proyecto como se dijo requere capacidad en disco. Aumente el disco a 16 GiB.
 
    ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/iraconfiguraralmacenamiento.JPG?raw=true)
+
+9. Finalmente lance la instancia (no debe presentar error, si tiene error debe inciar de nuevo). Si todo sale bien, por favor haga click en instancias en la parte superior.
+
+   ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/iraconfiguraralmacenamiento.JPG?raw=true)
+
+
+10. Dado que normalmente en la listas de instancias NO VE la nueva instancia lanzada por favor actualice la pagina Web o en ir a instancias
+    
+ ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/iracutualizarweb.JPG?raw=true)
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/irainstancias.JPG?raw=true)
+
+12. Vam0s a seleccionar el servidor ec2 lanzado.
+    ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/irseleccionarinstancia.JPG?raw=true)
+    
    
 2. Abre un puerto en el grupo de seguridad (por ejemplo, puerto **8080**) para permitir acceso a la API.
 

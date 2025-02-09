@@ -47,7 +47,8 @@ Desarrollar una aplicación móvil para Android que capture una foto, la envíe 
 5. Para este proyecto dado que el tamaño del modelo a descargar es grande necesitamos una maquina con más memoria y disco.
    con nuesra licencia tenemos permiso desde un micro lanzar hasta un T2.Large. 
 
-![Uploading image]](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/iratipodeinstancia.JPG?raw=true)
+
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/iratipodeinstancia.JPG?raw=true)
 
 2. Abre un puerto en el grupo de seguridad (por ejemplo, puerto **8080**) para permitir acceso a la API.
 

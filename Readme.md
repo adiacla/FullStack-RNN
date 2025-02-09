@@ -29,15 +29,24 @@ Desarrollar una aplicación móvil para Android que capture una foto, la envíe 
 
 ### 1.1 **Configurar la Instancia EC2 en AWS**
 
+1. En la consola de amnisitración de AWS seleccione el servicio de EC2 (servidor virtual) o escriba en buscar.
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/iraEC2.JPG?raw=true)
+
+2. Ve a la opción para lanzar la instancia
+
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/irainstancias.JPG?raw=true)
+
 1. Inicia una nueva **instancia EC2** en AWS (elige Ubuntu como sistema operativo).
 
 ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/Instancia%20Ubuntu.PNG?raw=true)
+
+2. 
 
 2. Abre un puerto en el grupo de seguridad (por ejemplo, puerto **8080**) para permitir acceso a la API.
 
 ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/Puerto.PNG?raw=true)
 
-3. Si no puedes conectarse directamente a la instancia EC2, conectate  con SSH, es decir en la consola de administración de instancia creada ay unaopcion de "Conectar", hace clic y luego connectar otra vez. Si no puede conectarse puedo hacer con el SS: 
+3. Si no puedes conectarse directamente a la instancia EC2, conectate  con SSH, es decir en la consola de administración de instancia creada ay unaopcion de "Conectar", hace clic y luego connectar otra vez. Si no puede conectarse puedo hacer con el SS:
    
 
    ```bash

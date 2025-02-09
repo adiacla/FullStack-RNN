@@ -72,14 +72,47 @@ Desarrollar una aplicación móvil para Android que capture una foto, la envíe 
  ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/iracutualizarweb.JPG?raw=true)
 ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/irainstancias.JPG?raw=true)
 
-12. Vam0s a seleccionar el servidor ec2 lanzado.
+12. Vamos a seleccionar el servidor ec2 lanzado.
     ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/irseleccionarinstancia.JPG?raw=true)
+
+13. Verificar la dirección IP pública y el DNS en el resumen de la instancia
     
-   
-2. Abre un puerto en el grupo de seguridad (por ejemplo, puerto **8080**) para permitir acceso a la API.
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/irresumeninstancia.JPG?raw=true)
+
+14. Debido a que vamos a lanzar un API rest debemos habilitar el puerto. Vamos al seguridad
+
+    ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/iraseguirdad.JPG?raw=true)
+
+15. Vamos al grupo de seguridad
+
+   ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/iragruposeguridad.JPG?raw=true)
+
+   16. Vamos a ir a Editar la regla de entrada
+
+       ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/iraregladeentrada.JPG?raw=true)
+
+17. Ahora vamos a agregar un regla de entrada par habilitar el puerto
+
+    ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/iragregarregla.JPG?raw=true)
+
+     
+![alt text](
+
+18. Abre un puerto en el grupo de seguridad (por ejemplo, puerto **8080**) para permitir acceso a la API.
 
 ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/Puerto.PNG?raw=true)
 
+19. Guardemos la regla de entrada.
+    ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/irguardarreglas.JPG?raw=true)
+
+20. Ve nuevamente a instancias
+    ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/iralanzarinstanciaB.JPG?raw=true)
+
+21. Vamos a conectar con la consola del servidor
+    ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/irconectar.JPG?raw=true)
+
+    ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/irconsola.JPG?raw=true)
+    
 3. Si no puedes conectarse directamente a la instancia EC2, conectate  con SSH, es decir en la consola de administración de instancia creada ay unaopcion de "Conectar", hace clic y luego connectar otra vez. Si no puede conectarse puedo hacer con el SS:
    
 
@@ -89,28 +122,37 @@ Desarrollar una aplicación móvil para Android que capture una foto, la envíe 
 ---
 
 ### 1.2 Instalar Dependencias en el Servidor EC2
-Una vez dentro de tu instancia EC2, instala Python 3, FastAPI y las dependencias necesarias para ello debes crear una carpeta en donde realizaras las instalaciones:
+Una vez dentro de tu instancia EC2, instalar las lbrerias y complmentos como FastAPI y las dependencias necesarias para ello debes crear una carpeta en donde realizaras las instalaciones:
 
-**Actualizar los paquetes**
+**Ver las carpetas**
+ ```bash
+ls -la
+ ```
+**Ver la version de python**
+ ```bash
+python3 -V
+ ```
+
+**Si se requiere, puede actualizar los paquetes**
  ```bash
 sudo apt update
  ```
 ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/aptUpdate.PNG?raw=true)
 
 
-**Instalar pip y virtualenv**
+**Si se requero: Instalar pip y virtualenv**
  ```bash
 sudo apt install python3-pip python3-venv
  ```
 
-**Crear la carpeta**
+**Crear la carpeta del proyecto**
  ```bash
-mkdir -nombre de tu carpeta
+mkdir proyecto
  ```
 
 **Accede a tu carpeta**
  ```bash
-cd -nombre de tu carpeta
+cd proyecto
  ```
 
 **Crear y activar un entorno virtual**
@@ -119,6 +161,7 @@ cd -nombre de tu carpeta
 python3 -m venv venv
 source venv/bin/activate
  ```
+Recuerda que en el prompt debe obersar que el env debe quedar activo
 
 **Instalar FastAPI, Uvicorn, Joblib, TensorFlow, Python-Multipart, Pillow**
  ```bash
@@ -151,6 +194,7 @@ nano app.py
 
 Desarrollo del Backend API
 Usaremos FastAPI por su rendimiento y facilidad de uso. El backend aceptará una imagen, la procesará con el modelo VGG16 y devolverá la predicción.
+Puede copiar este codigo en tu editor de nano.
 
  ```python
 from fastapi import FastAPI, File, UploadFile
@@ -214,8 +258,20 @@ if __name__ == "__main__":
 
 ```
 
+Para salir del editor **nano** oprime CTRL-X y luego (Save modified buffer? ) escribe "Y" y (Save modified buffer? app.py) ENTER.
+puede verificar que archivo fue creado
+
+ ```bash
+ls -la
+ ```
+o puedes ver si en el archivo quedó el codigo guardado
+
+ ```bash
+cat app.py
+ ```
+
 ### 1.4 Crear el Diccionario
-Para que nuestra app.py funcione es necesario crear un diccionario para hacer la traduccion al español, crea el siguiente archivo con este nombre
+Dado que las clases con que fué entrenado nuestro modelo es en inglés, en el GitHub hay un archivo con un diccionario para covertir la respuesta a españo. Para que nuestra app.py funcione es necesario crear un diccionario para hacer la traduccion al español, crea el siguiente archivo con este nombre
 
  ```bash
 nano traduccion.txt

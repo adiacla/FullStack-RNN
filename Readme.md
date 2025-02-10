@@ -787,13 +787,22 @@ mv my-release-key.keystore /android/app
 Debe abrir su archivo android\app\build.gradle y agregar la configuración del almacén de claves. Hay dos formas de configurar el proyecto con keystore. Primero, la forma común y no segura:
 
 ```bash
-signingConfigs {
-  release {
-    storeFile file('your_key_name.keystore')
-    storePassword System.console().readLine("\nKeystore password:")
-    keyAlias System.console().readLine("\nAlias: ")
-    keyPassword System.console().readLine("\Alias password: ")
-   }
+android {
+....
+  signingConfigs {
+    release {
+      storeFile file('your_key_name.keystore')
+      storePassword 'your_key_store_password'
+      keyAlias 'your_key_alias'
+      keyPassword 'your_key_file_alias_password'
+    }
+  }
+  buildTypes {
+    release {
+      ....
+      signingConfig signingConfigs.release
+    }
+  }
 }
 ```
 

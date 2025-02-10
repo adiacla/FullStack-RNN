@@ -55,65 +55,65 @@ Desarrollar una aplicación móvil para Android que capture una foto, la envíe 
 
 ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/iraparclaves.JPG?raw=true)
 
-7. Habilite los puertos de shh, web y https, para este proyecto no lo vamos a usar no es necesaro, pero si vas a publicar una web res requerido.
+7. Habilite los puertos de shh, web y https, para este proyecto no lo vamos a usar no es necesario, pero si vas a publicar una web es requerido.
    ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/irfirewall.JPG?raw=true)
 
 8. Configure el almacenamiento. Este proyecto como se dijo requere capacidad en disco. Aumente el disco a 16 GiB.
 
    ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/iraconfiguraralmacenamiento.JPG?raw=true)
 
-9. Finalmente lance la instancia (no debe presentar error, si tiene error debe inciar de nuevo). Si todo sale bien, por favor haga click en instancias en la parte superior.
+9. Finalmente lance la instancia (no debe presentar error, si tiene error debe iniciar de nuevo). Si todo sale bien, por favor haga click en instancias en la parte superior.
 
    ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/iraconfiguraralmacenamiento.JPG?raw=true)
 
 
-10. Dado que normalmente en la listas de instancias NO VE la nueva instancia lanzada por favor actualice la pagina Web o en ir a instancias
+10. Dado que normalmente en la lista de instancias NO VE la nueva instancia lanzada por favor actualice la pagina Web o en ir a instancias
     
  ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/iracutualizarweb.JPG?raw=true)
 ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/irainstancias.JPG?raw=true)
 
-12. Vamos a seleccionar el servidor ec2 lanzado.
+11. Vamos a seleccionar el servidor ec2 lanzado.
     ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/irseleccionarinstancia.JPG?raw=true)
 
-13. Verificar la dirección IP pública y el DNS en el resumen de la instancia
+12. Verificar la dirección IP pública y el DNS en el resumen de la instancia
     
 ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/irresumeninstancia.JPG?raw=true)
 
-14. Debido a que vamos a lanzar un API rest debemos habilitar el puerto. Vamos al seguridad
+13. Debido a que vamos a lanzar un API rest debemos habilitar el puerto. Vamos al seguridad
 
     ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/iraseguirdad.JPG?raw=true)
 
-15. Vamos al grupo de seguridad
+14. Vamos al grupo de seguridad
 
    ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/iragruposeguridad.JPG?raw=true)
 
-   16. Vamos a ir a Editar la regla de entrada
+   15. Vamos a ir a Editar la regla de entrada
 
        ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/iraregladeentrada.JPG?raw=true)
 
-17. Ahora vamos a agregar un regla de entrada par habilitar el puerto
+16. Ahora vamos a agregar un regla de entrada para habilitar el puerto
 
     ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/iragregarregla.JPG?raw=true)
 
      
 ![alt text](
 
-18. Abre un puerto en el grupo de seguridad (por ejemplo, puerto **8080**) para permitir acceso a la API.
+17. Abre un puerto en el grupo de seguridad (por ejemplo, puerto **8080**) para permitir acceso a la API.
 
 ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/Puerto.PNG?raw=true)
 
-19. Guardemos la regla de entrada.
+18. Guardemos la regla de entrada.
     ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/irguardarreglas.JPG?raw=true)
 
-20. Ve nuevamente a instancias
+19. Ve nuevamente a instancias
     ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/iralanzarinstanciaB.JPG?raw=true)
 
-21. Vamos a conectar con la consola del servidor
+20. Vamos a conectar con la consola del servidor
     ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/irconectar.JPG?raw=true)
 
     ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/irconsola.JPG?raw=true)
     
-3. Si no puedes conectarse directamente a la instancia EC2, conectate  con SSH, es decir en la consola de administración de instancia creada ay unaopcion de "Conectar", hace clic y luego connectar otra vez. Si no puede conectarse puedo hacer con el SS:
+3. Si no puedes conectarse directamente a la instancia EC2, conectate  con SSH, es decir en la consola de administración de instancia creada hay una opcion de "Conectar", has clic y luego conectar otra vez. Si no puede conectarse puede hacerlo con el SSH:
    
 
    ```bash
@@ -122,7 +122,7 @@ Desarrollar una aplicación móvil para Android que capture una foto, la envíe 
 ---
 
 ### 1.2 Instalar Dependencias en el Servidor EC2
-Una vez dentro de tu instancia EC2, instalar las lbrerias y complmentos como FastAPI y las dependencias necesarias para ello debes crear una carpeta en donde realizaras las instalaciones:
+Una vez dentro de tu instancia EC2, instalar las librerias y complementos como FastAPI y las dependencias necesarias para ello debes crear una carpeta en donde realizaras las instalaciones:
 
 **Ver las carpetas**
  ```bash
@@ -140,7 +140,7 @@ sudo apt update
 ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/aptUpdate.PNG?raw=true)
 
 
-**Si se requero: Instalar pip y virtualenv**
+**Si se requiere: Instalar pip y virtualenv**
  ```bash
 sudo apt install python3-pip python3-venv
  ```

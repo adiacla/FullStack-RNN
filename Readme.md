@@ -96,7 +96,7 @@ Desarrollar una aplicación móvil para Android que capture una foto, la envíe 
     ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/iragregarregla.JPG?raw=true)
 
      
-![alt text](
+
 
 17. Abre un puerto en el grupo de seguridad (por ejemplo, puerto **8080**) para permitir acceso a la API.
 

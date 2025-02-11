@@ -91,7 +91,7 @@ Desarrollar una aplicación móvil para Android que capture una foto, la envíe 
 
        ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/iraregladeentrada.JPG?raw=true)
 
-16. Ahora vamos a agregar un regla de entrada para habilitar el puerto
+16. Ahora vamos a agregar un regla de entrada para habilitar el puerto, recuerden poner IPV 4
 
     ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/iragregarregla.JPG?raw=true)
 
@@ -317,7 +317,16 @@ Usa herramientas como Postman o cURL para probar la API antes de integrarla con 
 curl -X POST -F "file=@image.jpg" http://ec2-54-164-41-174.compute-1.amazonaws.com:8080/predict/
 Espera un JSON como respuesta con las predicciones.
 
-Utilizando postman deberias ver el siguiente resultado
+Si vas a utilizar postman entra en el siguiente enlance https://www.postman.com , crea o ingresa a tu cuenta y sigue los siguientes pasos:
+1. Dale click en new request
+
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/NewRequest.PNG?raw=true)
+   
+2. Poner las siguientes opciones en la request
+
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/PostRequest.PNG?raw=true)
+   
+Recuerda que debes poner la URL de tu EC2 acompañado con el :8080 que es el puerto y con el /predict que es el endpoint que queremos probar.
 
 ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/postman.PNG?raw=true)
 
@@ -379,7 +388,16 @@ Una vez tienes el command-line tools debes extraerlo en el Android/SDK C:\Users\
 ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/cmdline-tools.PNG?raw=true)
 
 ## Variables de Entorno de Usuario:
-Verifica que las variables de entorno estén correctamente configuradas:
+Verifica que las variables de entorno estén correctamente configuradas, para ello accede a las variables de entorno desde el buscador de windows:
+
+![image](https://github.com/user-attachments/assets/de660b10-e806-4229-af0f-a3a068cb5868)
+
+Una vez estes ahi, dale click en variables de entorno
+
+![image](https://github.com/user-attachments/assets/70aea713-c754-43e6-918a-938b5d81c4c5)
+
+![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/android_Home.PNG?raw=true)
+
 
 ANDROID_HOME debe apuntar a la carpeta de instalación del SDK de Android. Por ejemplo:
  ```plaintext

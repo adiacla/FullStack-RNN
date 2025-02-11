@@ -460,6 +460,8 @@ Conecta tu dispositivo a tu computadora con un cable USB.
 
 Esto debería listar tu dispositivo.
 
+Si no te llega a funcionar de este metodo, busca en google el modelo de tu celular y como activar el modo desarrollador
+
 Accede a la carpeta de tu proyecto:
 
 ```bash
@@ -784,77 +786,76 @@ npx react-native run-android --variant=release
 ```
 
 # Si no funciona el despliegue de esa manera siga los siguientes pasos
-## Paso 1. Genere un almacén de claves
+
+## Generando una clave
 Necesitará una clave de firma generada por Java, que es un archivo de almacén de claves que se utiliza para generar un binario ejecutable React Native para Android. Puede crear uno usando la herramienta de teclas en la terminal con el siguiente comando
+En Windows keytool debe ejecutarse desde C:\Program Files\Java\jdkx.x.x_x\bin, como administrador.
 
 ```bash
 keytool -genkey -v -keystore your_key_name.keystore -alias your_key_alias -keyalg RSA -keysize 2048 -validity 10000
 ```
-Una vez que ejecute la utilidad keytool, se le pedirá que ingrese una contraseña. * Asegúrate de recordar la contraseña.
-Puede cambiar your_key_name con el nombre que desee, así como your_key_alias. Esta clave usa el tamaño de clave 2048, en lugar del 1024 predeterminado por razones de seguridad.
 
-## Paso 2. Agregar almacén de claves a su proyecto
-En primer lugar, debe copiar el archivo your_key_name.keystore y pegarlo en el directorio android/app en la carpeta de su proyecto React Native.
+Este comando le solicita las contraseñas para el almacén de claves y la clave, así como los campos de nombre distintivo de su clave. Luego, genera el almacén de claves como un archivo llamado my-upload-key.keystore.
 
-En la terminal:
+El almacén de claves contiene una clave única, válida durante 10 000 días. El alias es un nombre que utilizará más adelante al firmar su aplicación, así que recuerde tomar nota del alias.
+
+## Configuración de variables
+
+1. Coloque el my-upload-key.keystorearchivo en el android/appdirectorio en la carpeta de su proyecto.
+   
+2. Edite el archivo ~/.gradle/gradle.propertieso android/gradle.properties, y agregue lo siguiente (reemplace *****con la contraseña del almacén de claves, el alias y la contraseña de clave correctos)
 
 ```bash
-mv my-release-key.keystore /android/app
+MYAPP_UPLOAD_STORE_FILE=my-upload-key.keystore
+MYAPP_UPLOAD_KEY_ALIAS=my-key-alias
+MYAPP_UPLOAD_STORE_PASSWORD=*****
+MYAPP_UPLOAD_KEY_PASSWORD=*****
 ```
 
-Debe abrir su archivo android\app\build.gradle y agregar la configuración del almacén de claves. Hay dos formas de configurar el proyecto con keystore. Primero, la forma común y no segura:
+Estas serán variables globales de Gradle, que luego podremos usar en nuestra configuración de Gradle para firmar nuestra aplicación.
+
+## Cómo agregar una configuración de firma a la configuracion
+
+El último paso de configuración que se debe realizar es configurar las compilaciones de lanzamiento para que se firmen mediante la clave de carga. Edite el archivo android/app/build.gradleen la carpeta de su proyecto y agregue la configuración de firma.
 
 ```bash
 android {
-....
-  signingConfigs {
-    release {
-      storeFile file('your_key_name.keystore')
-      storePassword 'your_key_store_password'
-      keyAlias 'your_key_alias'
-      keyPassword 'your_key_file_alias_password'
+    ...
+    defaultConfig { ... }
+    signingConfigs {
+        release {
+            if (project.hasProperty('MYAPP_UPLOAD_STORE_FILE')) {
+                storeFile file(MYAPP_UPLOAD_STORE_FILE)
+                storePassword MYAPP_UPLOAD_STORE_PASSWORD
+                keyAlias MYAPP_UPLOAD_KEY_ALIAS
+                keyPassword MYAPP_UPLOAD_KEY_PASSWORD
+            }
+        }
     }
-  }
-  buildTypes {
-    release {
-      ....
-      signingConfig signingConfigs.release
+    buildTypes {
+        release {
+            ...
+            signingConfig signingConfigs.release
+        }
     }
-  }
 }
 ```
 
-Esta no es una buena práctica de seguridad, ya que almacena la contraseña en texto sin formato. En lugar de almacenar la contraseña del almacén de claves en un archivo .gradle, puede estipular que el proceso de compilación le solicite estas contraseñas si está compilando desde la línea de comandos.
-Para solicitar una contraseña con el archivo de compilación de Gradle, cambie la configuración anterior como:
-
+## Generando la liberación 
+Ejecute el siguiente comando en una terminal:
 
 ```bash
-signingConfigs {
-  release {
-    storeFile file('your_key_name.keystore')
-    storePassword System.console().readLine("\nKeystore password:")
-    keyAlias System.console().readLine("\nAlias: ")
-    keyPassword System.console().readLine("\Alias password: ")
-   }
-}
+npx react-native build-android --mode=release
+
 ```
 
-```bash
-react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle 
---assets-dest android/app/src/main/res/
-```
+Este comando utiliza bundleReleaseel componente interno de Gradle que agrupa todo el JavaScript necesario para ejecutar su aplicación en el AAB ( Android App Bundle ). Si necesita cambiar la forma en que se agrupan el paquete de JavaScript o los recursos dibujables (por ejemplo, si cambió los nombres de archivo/carpeta predeterminados o la estructura general del proyecto), consulte para android/app/build.gradlever cómo puede actualizarlo para reflejar estos cambios.
 
-## Paso 3. Lanzamiento de la generación de APK
-Coloque su directorio de terminal en Android usando:
+
+## Probar la versión de lanzamiento de su aplicación
 
 ```bash
-cd android
-```
-
-Para Windows
-
-```bash
-gradlew assembleRelease
+npm run android -- --mode="release"
 ```
 
 ## Si tiene algun error al correr la aplicacion

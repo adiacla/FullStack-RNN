@@ -440,9 +440,10 @@ si prefieres no modificar las políticas de PowerShell, puedes usar el terminal 
 Abre Node.js Command Prompt (generalmente instalado junto con Node.js).
 Ejecuta tu comando:
  ```bash
-npx @react-native-community/cli init imagenes (imagenes es el nombre del proyecto)
-
+npx @react-native-community/cli init imagenes
  ```
+ (imagenes es el nombre del proyecto)
+
 
 ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/React.PNG?raw=true)
 

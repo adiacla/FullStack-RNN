@@ -29,7 +29,7 @@ Desarrollar una aplicación móvil para Android que capture una foto, la envíe 
 
 ### 1.1 **Configurar la Instancia EC2 en AWS**
 
-1. En la consola de amnisitración de AWS seleccione el servicio de EC2 (servidor virtual) o escriba en buscar.
+1. En la consola de administración de AWS seleccione el servicio de EC2 (servidor virtual) o escriba en buscar.
 ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/iraEC2.JPG?raw=true)
 
 2. Ve a la opción para lanzar la instancia

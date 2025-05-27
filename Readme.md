@@ -358,6 +358,8 @@ Todos los pasos los puede verificar aqui
  https://youtu.be/nwXUXt_QqU8?si=dWjeavfLB06cz-bo
 
 
+
+
 Verifica la instalación de Android Studio. Abre Android Studio y asegúrate de que el Android SDK y el Android Virtual Device (AVD) estén correctamente instalados, en el siguiente link puedes realizar la descarga.
 
 https://developer.android.com/studio?hl=es-419&_gl=1*5t55h4*_up*MQ..&gclid=EAIaIQobChMIie2A3uCYiwMVJ7VaBR2njTbJEAAYASAAEgIdWvD_BwE&gclsrc=aw.ds
@@ -387,6 +389,32 @@ Una vez tienes el command-line tools debes extraerlo en el Android/SDK C:\Users\
 
 ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/cmdline-tools.PNG?raw=true)
 
+##Verficiacion del NDK
+* Abre Android Studio
+
+Ve a: More Actions > SDK Manager
+
+Haz clic en la pestaña SDK Tools
+
+Marca la opción NDK (Side by side)
+
+Si ya está marcada:
+
+Desmárcala
+
+Aplica cambios (esto desinstala)
+
+* Luego vuelve a marcarla y aplica de nuevo (esto reinstala correctamente)
+
+Asegúrate también de tener marcado:
+
+CMake
+
+Android SDK Command-line Tools (latest)
+
+Reinicia Android Studio y tu terminal (cmd o Node.js Prompt)
+
+
 ## Variables de Entorno de Usuario:
 Verifica que las variables de entorno estén correctamente configuradas, para ello accede a las variables de entorno desde el buscador de windows:
 
@@ -399,7 +427,7 @@ Una vez estes ahi, dale click en variables de entorno
 ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/android_Home.PNG?raw=true)
 
 
-ANDROID_HOME debe apuntar a la carpeta de instalación del SDK de Android. Por ejemplo:
+ANDROID_HOME debe apuntar a la carpeta de instalación del SDK de Android, el path de su cuenta o del sistema configure: Por ejemplo:
  ```plaintext
 
 %LOCALAPPDATA%\Android\Sdk
@@ -411,21 +439,14 @@ ANDROID_HOME debe apuntar a la carpeta de instalación del SDK de Android. Por e
 
 ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/android_Home.PNG?raw=true)
 
-Asegúrate de que la ruta a platform-tools esté en el PATH. Deberías añadir algo como:
- ```plaintext
-
-%LOCALAPPDATA%\Android\Sdk\platform-tools
- ```
-
 ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/sdk_entorno.PNG?raw=true)
 
 
-Asegúrate de que el emulador esté iniciado ANTES de correr run-android
+##Asegúrate de que el emulador esté iniciado ANTES de correr run-android
 
 Revisa que el dispositivo tenga una imagen compatible (por ejemplo, API 30 o superior)
 
 Usa el emulador Pixel API 33 x86_64 (recomendado)
-
 
 
 ## Paso 2: Limpiar posibles residuos de instalaciones previas

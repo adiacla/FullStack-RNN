@@ -403,6 +403,10 @@ ANDROID_HOME debe apuntar a la carpeta de instalación del SDK de Android. Por e
  ```plaintext
 
 %LOCALAPPDATA%\Android\Sdk
+%ANDROID_HOME%\tools\bin
+%ANDROID_HOME%\emulator
+%ANDROID_HOME%\platform-tools
+%ANDROID_HOME%\tools
  ```
 
 ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/android_Home.PNG?raw=true)

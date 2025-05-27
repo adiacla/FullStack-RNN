@@ -358,8 +358,6 @@ Todos los pasos los puede verificar aqui
  https://youtu.be/nwXUXt_QqU8?si=dWjeavfLB06cz-bo
 
 
-
-
 Verifica la instalación de Android Studio. Abre Android Studio y asegúrate de que el Android SDK y el Android Virtual Device (AVD) estén correctamente instalados, en el siguiente link puedes realizar la descarga.
 
 https://developer.android.com/studio?hl=es-419&_gl=1*5t55h4*_up*MQ..&gclid=EAIaIQobChMIie2A3uCYiwMVJ7VaBR2njTbJEAAYASAAEgIdWvD_BwE&gclsrc=aw.ds
@@ -389,7 +387,7 @@ Una vez tienes el command-line tools debes extraerlo en el Android/SDK C:\Users\
 
 ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/cmdline-tools.PNG?raw=true)
 
-##Verficiacion del NDK
+## Verficiación del NDK
 * Abre Android Studio
 
 Ve a: More Actions > SDK Manager
@@ -794,6 +792,18 @@ En la raíz del proyecto crea una carpeta llamada assets en donde pongas la imag
 ## Paso 8: Ejecutar la App en el Emulador o en un Dispositivo Físico
 
 Conectar un dispositivo Android físico y habilitar la Depuración USB en las Opciones de Desarrollador.
+
+Puede listar si el dispoitivo está conectado
+adb devices
+
+listar los emuladores
+emulator -list-avds
+
+
+
+cd android
+gradlew clean
+cd ..
 
 Ejecutar el Proyecto en un Dispositivo Físico:
 

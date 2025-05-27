@@ -419,6 +419,15 @@ Asegúrate de que la ruta a platform-tools esté en el PATH. Deberías añadir a
 
 ![alt text](https://github.com/adiacla/FullStack-RNN/blob/main/Imagenes/sdk_entorno.PNG?raw=true)
 
+
+Asegúrate de que el emulador esté iniciado ANTES de correr run-android
+
+Revisa que el dispositivo tenga una imagen compatible (por ejemplo, API 30 o superior)
+
+Usa el emulador Pixel API 33 x86_64 (recomendado)
+
+
+
 ## Paso 2: Limpiar posibles residuos de instalaciones previas
 Si has tenido problemas con instalaciones previas, es recomendable limpiar completamente las dependencias globales de npm y React Native.
 

@@ -16,7 +16,7 @@ Desarrollar una aplicación móvil para Android que capture una foto, la envíe 
 ### Backend (FastAPI)
 - **AWS EC2** con Ubuntu
 - **FastAPI** para el backend
-- **Modelo de Regresión Lineal** guardado con **Joblib**
+- **Modelo de Red Neuronal de reconocimiento de imagenes**
 
 ### Frontend (React Native)
 - **Windows 11** para el desarrollo
